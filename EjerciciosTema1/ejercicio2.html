@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+<body>
+    <img id="myImage" onclick="cambiaPic()" 
+    src="https://hips.hearstapps.com/hmg-prod/images/flower-meanings-orange-tulip-1671510677.jpg?crop=1xw:0.84375xh;center,top&resize=1200:*"
+    alt="Imagen de flores" width="300" height="300">
+    <p>Haz click sobre las letras para cambiarlas.</p>
+    <script>
+        function cambiaPic() {
+            var image = document.getElementById('myImage');
+            if (image.src.match("orange")) {
+                image.src = "https://www.clara.es/medio/2022/07/04/plantas-con-flores-blancas_f50e9bf0_1280x720.jpg";
+            } else if (image.src.match("blancas")) {
+                image.src = "https://www.infobae.com/new-resizer/TKBcRcciWwx63rLKoAMDXXJYIPg=/768x576/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/09/14145420/Flores-SF-6.jpg";
+            } else if (image.src.match("infobae")) {
+                image.src = "https://media.admagazine.com/photos/618a60be72049e253173e74b/master/w_1600%2Cc_limit/86267.jpg";
+            } else {
+                image.src = "https://hips.hearstapps.com/hmg-prod/images/flower-meanings-orange-tulip-1671510677.jpg?crop=1xw:0.84375xh;center,top&resize=1200:*";
+            }
+        }
+    </script>
+</body>
+</html>
