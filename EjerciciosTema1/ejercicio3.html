@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    <h1>Test de 7 preguntas</h1>
+
+    <p id="p1">1. El número atómico del litio es 17.</p> <!-- Falso. Es 3. -->
+    <input type="button" value="Verdadero" onclick="correccion('f1','t1','p1')" id="t1">
+    <input type="button" value="Falso" onclick="correccion('f1','f1','p1')" id="f1">
+
+    <p id="p2">2. La acrofobia es el miedo al ajo.</p>
+    <input type="button" value="Verdadero" onclick="correccion('t2','t2','p2')" id="t2">
+    <input type="button" value="Falso" onclick="correccion('t2','f2','p2')" id="f2">
+
+
+    <script>
+        function correccion(solucion, boton, pregunta) {
+            var x = document.getElementById(pregunta);
+            
+            if (solucion == boton) {
+                x.style.color = "green";
+            } else {
+                x.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
