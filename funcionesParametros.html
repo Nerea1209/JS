@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones con parámetros</title>
+</head>
+<body>
+    <script>
+        const calcula = (v1, v2, v3) => {
+            if (v2 == undefined && v3 == undefined) {
+                console.log(Math.pow(v1, 3));
+            } else if (v2 != undefined && v3 == undefined) {
+                console.log(v1 * v2);
+            } else {
+                console.log(v1 + v2 + v3);
+            }
+        };
+        calcula(5);
+        calcula(5,5);
+        calcula(5,5,5);
+    </script>
+</body>
+</html>
