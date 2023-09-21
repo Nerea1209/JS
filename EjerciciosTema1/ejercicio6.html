@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+</head>
+<body>
+    <input type="button" value="Ruso" id="ruso" onclick="bienvenida(this)">
+    <input type="button" value="Español" id="spanish" onclick="bienvenida(this)">
+    <input type="button" value="Inglés" id="ingles" onclick="bienvenida(this)">
+
+    <script>
+        function bienvenida(boton) {
+            if (boton == document.getElementById("ruso")) {
+                alert("Как здорово, что ты с нами!");
+            } else if (boton == document.getElementById("spanish")) {
+                alert("¡Es genial tenerte con nosotros!");
+            } else {
+                alert("It's great to have you with us!");
+            }
+        }
+    </script>
+
+</body>
+</html>
