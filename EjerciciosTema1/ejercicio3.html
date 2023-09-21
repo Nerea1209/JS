@@ -16,17 +16,68 @@
     <input type="button" value="Verdadero" onclick="correccion('t2','t2','p2')" id="t2">
     <input type="button" value="Falso" onclick="correccion('t2','f2','p2')" id="f2">
 
+    <p id="p3">3. Hay 219 episodios de 'Friends'.</p>
+    <input type="button" value="Verdadero" onclick="correccion('t3','t3','p3')" id="t3">
+    <input type="button" value="Falso" onclick="correccion('t3','f3','p3')" id="f3">
+
+    <p id="p4">4. En 'Harry Potter', Draco Malfoy no tiene hermanos.</p>
+    <input type="button" value="Verdadero" onclick="correccion('f4','t4','p4')" id="t4">
+    <input type="button" value="Falso" onclick="correccion('f4','f4','p4')" id="f4">
+
+    <p id="p5">5. El rugido del león puede oírse hasta a ocho kilómetros de distancia.</p>
+    <input type="button" value="Verdadero" onclick="correccion('t5','t5','p5')" id="t5">
+    <input type="button" value="Falso" onclick="correccion('t5','f5','p5')" id="f5">
+
+    <p id="p6">6. Mónaco es el país más pequeño del mundo.</p>
+    <input type="button" value="Verdadero" onclick="correccion('f6','t6','p6')" id="t6">
+    <input type="button" value="Falso" onclick="correccion('f6','f6','p6')" id="f6">
+
+    <p id="p7">7. Hay cinco grupos sanguíneos.</p>
+    <input type="button" value="Verdadero" onclick="correccion('f7','t7','p7')" id="t7">
+    <input type="button" value="Falso" onclick="correccion('f7','f7','p7')" id="f7">
+
+    <h3 id="puntuacion">Puntuación: 0/7</h3>
+
 
     <script>
+        // He añadido la puntuación del test
+        var puntuacion = 0;
+        var botonAnterior;
+        var preguntaAnterior;
+
+        // Esta función recibe por parámetro la respuesta correcta, la id del boton pulsado
+        // y el id de la p a cambiar de color
         function correccion(solucion, boton, pregunta) {
             var x = document.getElementById(pregunta);
-            
+
+            // Si el botón pulsado es el correcto
             if (solucion == boton) {
+                // El párrafo se pone en verde
                 x.style.color = "green";
+                // Y se suma uno a la puntuación si no fue pulsado ese mismo botón justo antes
+                if(botonAnterior != undefined && botonAnterior != boton) {
+                    puntuacion++;
+                }
+            // Si falla
             } else {
+                // La pregunta se pone en rojo
                 x.style.color = "red";
+                // Y se resta uno a la puntuación si el botón anterior fue distinto y de la misma pregunta
+                if(botonAnterior != undefined && botonAnterior != boton && preguntaAnterior == pregunta) {
+                    puntuacion--;
+                }
             }
+            // Actualiza la puntuación
+            document.getElementById('puntuacion').innerHTML = "Puntuación: " + puntuacion + "/7";
+
+            // Guarda el boton y la pregunta seleccionada
+            botonAnterior = boton;
+            preguntaAnterior = pregunta;
         }
+
+        // PREGUNTA: ¿Cómo puedo hacer que cuando falles una pregunta distinta ya acertada anteriormente
+        // reste uno a la puntuación si ahora la fallas o no sume porque ya está acertada?
+        // ¿Se le puede poner una especie de estado que me diga 'no contestada', 'acertada' o 'fallada'?
     </script>
 </body>
 </html>
