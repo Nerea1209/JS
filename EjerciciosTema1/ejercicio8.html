@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 7</title>
+</head>
+<body>
+    <input type="button" value="Ruso" id="ruso" onclick="bienvenida(this)">
+    <input type="button" value="Español" id="spanish" onclick="bienvenida(this)">
+    <input type="button" value="Inglés" id="ingles" onclick="bienvenida(this)">
+
+    <script>
+        function bienvenida(boton) {
+            // PREGUNTA: Al ser write, si queremos que nos salga los botones de nuevo 
+            //¿Hay que escribir el código en la misma línea del write?
+
+            // De esta forma hay que recargar para que salgan de nuevo los botones
+            if (boton == document.getElementById("ruso")) {
+                document.write("<h2>Как здорово, что ты с нами!</h2>");
+            } else if (boton == document.getElementById("spanish")) {
+                document.write("<h2>¡Es genial tenerte con nosotros!</h2>");
+            } else {
+                document.write("<h2>It's great to have you with us!</h2>");
+            }
+        }
+    </script>
+
+</body>
+</html>
