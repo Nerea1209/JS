@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+</head>
+<body>
+    <p id="mensaje"></p>
+    <input type="button" value="Ruso" id="ruso" onclick="bienvenida(this)">
+    <input type="button" value="Español" id="spanish" onclick="bienvenida(this)">
+    <input type="button" value="Inglés" id="ingles" onclick="bienvenida(this)">
+
+    <script>
+        function bienvenida(boton) {
+            var mensaje = document.getElementById('mensaje');
+            if (boton == document.getElementById("ruso")) {
+                mensaje.innerHTML = "Как здорово, что ты с нами!";
+                mensaje.style.color = "pink";
+            } else if (boton == document.getElementById("spanish")) {
+                mensaje.innerHTML = "¡Es genial tenerte con nosotros!";
+                mensaje.style.color = "blue";
+            } else {
+                mensaje.innerHTML = "It's great to have you with us!";
+                mensaje.style.color = "purple";
+            }
+        }
+    </script>
+
+</body>
+</html>
