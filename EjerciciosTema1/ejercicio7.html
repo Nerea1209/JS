@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio 6</title>
+    <title>Ejercicio 7</title>
 </head>
 <body>
     <input type="button" value="Ruso" id="ruso" onclick="bienvenida(this)">
@@ -13,11 +13,11 @@
     <script>
         function bienvenida(boton) {
             if (boton == document.getElementById("ruso")) {
-                alert("Как здорово, что ты с нами!");
+                console.log("Как здорово, что ты с нами!");
             } else if (boton == document.getElementById("spanish")) {
-                alert("¡Es genial tenerte con nosotros!");
+                console.log("¡Es genial tenerte con nosotros!");
             } else {
-                alert("It's great to have you with us!");
+                console.log("It's great to have you with us!");
             }
         }
     </script>
