@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumatorio de un array recursivo</title>
+</head>
+<body>
+    <h1>Sumatorio de un array recursivo</h1>
+    <p id="array"></p>
+    <p id="suma"></p>
+    <script>
+        var array = [5,7,3,8,5,8,2,9];
+        document.getElementById("array").innerHTML = array;
+
+        function suma(size) {
+            if (size == 0) {
+                return 0;
+            } else {
+                return array[size - 1] + suma(size - 1);
+            }
+        }
+
+        
+        document.getElementById("suma").innerHTML = 
+        "<b>Suma de todos los elementos del array: </b>" 
+        + suma(array.length);
+    </script>
+</body>
+</html>
