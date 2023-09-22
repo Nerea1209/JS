@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BIG FOOT</title>
+</head>
+
+<body>
+    <p id="txt">
+        Pie Grande (del inglés Bigfoot) o Sasquatch (según el nombre que le
+        dan los pueblos indígenas
+        originarios de Norteamérica —que procede de la adaptación al inglés
+        de la palabra original
+        del idioma halkomelem sásq'ets) es una criatura legendaria con el
+        aspecto de un primate
+        perteneciente a la familia de los homínidos, que suele verse en
+        bosques a elevadas altitudes,
+        principalmente en la región del noroeste del Pacífico en América del
+        Norte.
+
+        <br><br>
+        Crea un programa con una función recursiva que diga cual es la
+        secuencia de Big foot's (sin la big) más largas para un array dado
+        Por ejemplo: <br><br>
+        foot -> tamaño 4<br>
+        foooot -> tamaño 6<br>
+        foooooot -> tamaño 8<br>
+    <p>
+        <script>
+            let arr =["O", "F", "O", "O", "S", "T", "O", "F", "O", "O", "O", "T", "O",
+            "F", "O", "O", "O", "O","O","T"];
+            
+            var bigFoot = 0;
+            var foot = 0;
+            function footMayor(size) {
+                if (size < 4) {
+                    return bigFoot;
+                } else {
+                    console.log("Size" + size);
+                    console.log("Foot" + foot);
+                    if (foot == 0 && arr[size-1] == "T") {
+                        console.log("EMPIEZA POR T");
+                        foot = 1 + footMayor(size - 1);
+                    } else if (foot != 0 && arr[size-1] == "O") {
+                        console.log("SIGUE POR O");
+                        foot = 1 + footMayor(size - 1);
+                    } else if (foot != 0 && arr[size-1] == "F") {
+                        console.log("TERMINA EN F");
+                        foot++;
+                        if (foot > bigFoot) {
+                            bigFoot = foot;
+                        }
+                        foot = 0 + footMayor(size - 1);
+                        
+                    } else {
+                        foot = 0 + footMayor(size - 1);
+                        console.log("No hay foot");
+                    }
+                }
+                console.log("BigFoot" + bigFoot);
+            }
+
+            footMayor(arr.length);
+        </script>
+</body>
+
+</html>

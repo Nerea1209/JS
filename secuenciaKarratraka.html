@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secuencia de Karratraka</title>
+</head>
+<body>
+    <h1>Secuencia de Karratraca</h1>
+    <p id="secuencia"></p>
+    <script>
+        function secuencia(num) {
+            if (num < 3) {
+                return 1;
+            } else {
+                return ((secuencia(num-1))+(secuencia(num-2)) + 1);
+            }
+        }
+        for (let i = 1; i < 5; i++) {
+            let x = document.getElementById("secuencia");
+            x.innerHTML = x.innerHTML + " " + secuencia(i);
+        }
+    </script>
+</body>
+</html>
