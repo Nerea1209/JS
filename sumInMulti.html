@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RECURSIVIDAD</title>
+</head>
+
+<body>
+    <p>let array = [1,2,3,4];
+        Array.isArray(array); // true
+    </p>
+    <script>
+        let numeros = [1, [2, 3, 4], [8, 15, [5, 1]], 27];
+        console.log(numeros)
+        
+        function sumInMulti(array, size) {
+            if (size == 0) {
+                return 0;
+            } else if (Array.isArray(array[size - 1])) {
+                console.log(array[size - 1]);
+                return sumInMulti(array[size - 1], array[size - 1].length) + sumInMulti(array, size - 1);
+            } else {
+                console.log(array[size - 1]);
+                return array[size - 1] + sumInMulti(array, size - 1);
+            }
+        }
+        console.log("La suma es " + sumInMulti(numeros, numeros.length));
+    </script>
+</body>
+
+</html>
