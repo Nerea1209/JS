@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrices vacilonas</title>
+</head>
+<body>
+    <h1>Matrices vacilonas</h1>
+    <p id="matriz"></p>
+    <script>
+
+        function crearMatriz(num) {
+            let matriz = new Array (num);
+            for (let i = 0; i < num; i++) {
+                matriz[i] = new Array(num);
+                for (let j = 0; j < num; j++) {
+                        matriz[i][j] = elemento (i, j);
+                }
+            }
+            return matriz;
+        }
+
+        function elemento (fila, columna) {
+            if (fila == 0 || columna == 0) {
+                return 1;
+            } else {
+                return elemento(fila - 1, columna) + elemento(fila, columna - 1);
+            }
+        }
+
+
+        console.log(crearMatriz(8));
+    </script>
+</body>
+</html>
