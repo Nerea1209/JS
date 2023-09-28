@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Minevancic color</title>
+    <style>
+        .h {color: yellow}
+        .r {color: red}
+    </style>
+</head>
+
+<body>
+
+    <p><strong>Matriz inicial:</strong></p>
+    <p id="matriz1"></p>
+
+    <p><strong>Foco de infección:</strong></p>
+    <p id="matriz2"></p>
+
+    <p><strong>Resultado final:</strong></p>
+    <p id="matriz3"></p>
+
+    <script>
+        let biocenosis = [['P', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'H', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'],
+        ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'M', 'M', 'G', 'P']];
+
+        for (let i = 0; i < biocenosis.length; i++) {
+            for (let j = 0; j < biocenosis[i].length; j++) {
+                document.getElementById("matriz1").innerHTML += biocenosis[i][j] + "&nbsp;&nbsp;&nbsp;";
+            }
+            document.getElementById("matriz1").innerHTML += "<br>";
+        }
+
+
+
+
+
+        /*function pandemic(x, y) {
+
+        } */
+
+        let fila = undefined;
+        let columna = undefined;
+        function propagacion(x, y) {
+            if (fila == undefined && columna == undefined) {
+                fila = x-1;
+                columna = y-1;
+            }
+            console.log(biocenosis[x - 1][y - 1] + " x: " + (x) + " y: " + (y));
+            if (biocenosis[x - 1][y - 1] == 'M' ) {
+                biocenosis[x - 1][y - 1] = 'm';
+                if ((x-1) >= 0 && (x-1) < biocenosis.length - 1 ) {
+                    propagacion(x + 1, y);
+                }
+                if ((x-1) > 0 && (x-1) <= biocenosis.length - 1 ) {
+                    propagacion(x - 1, y);
+                }
+                if ((y-1) >= 0 && (y-1) < biocenosis[x-1].length - 1) {
+                    propagacion(x, y + 1);
+                } 
+                if ((y-1) > 0 && (y-1) <= biocenosis[x-1].length - 1) {
+                    propagacion(x, y - 1);
+                }
+
+            } else if (biocenosis[x - 1][y - 1] == 'H') {
+                biocenosis[x - 1][y - 1] = '&nbsp;&nbsp;&nbsp;';
+                if ((x-1) >= 0 && (x-1) < biocenosis.length - 1 ) {
+                    console.log('abajo');
+                    propagacion(x + 1, y);
+                }
+                if ((x-1) > 0 && (x-1) <= biocenosis.length - 1 ) {
+                    console.log('arriba');
+                    propagacion(x - 1, y);
+                } 
+                if ((y-1) >= 0 && (y-1) < biocenosis[x-1].length - 1) {
+                    console.log('der');
+                    propagacion(x, y + 1);
+                } 
+                if ((y-1) > 0 && (y-1) <= biocenosis[x-1].length - 1) {
+                    console.log('izq');
+                    propagacion(x, y - 1);
+                }
+                
+            } else {
+                return 0;
+            }
+        }
+
+        propagacion(4, 3);
+
+        console.log (fila + " " + columna);
+        for (let i = 0; i < biocenosis.length; i++) {
+            for (let j = 0; j < biocenosis[i].length; j++) {
+                if (biocenosis[i][j] == '&nbsp;&nbsp;&nbsp;') {
+                    document.getElementById("matriz2").innerHTML += 
+                    "<span class='h'> H </span> &nbsp;&nbsp;";
+                } else if (i == fila && j == columna){
+                    document.getElementById("matriz2").innerHTML += 
+                    "<span class='r'>" + biocenosis[i][j] + "</span>&nbsp;&nbsp;&nbsp;";
+                }else {
+                    document.getElementById("matriz2").innerHTML += biocenosis[i][j] + "&nbsp;&nbsp;&nbsp;";
+                }
+
+                
+                
+            }
+            document.getElementById("matriz2").innerHTML += "<br>";
+        }
+
+        for (let i = 0; i < biocenosis.length; i++) {
+            for (let j = 0; j < biocenosis[i].length; j++) {
+                document.getElementById("matriz3").innerHTML += biocenosis[i][j] + "&nbsp;&nbsp;&nbsp;";
+            }
+            document.getElementById("matriz3").innerHTML += "<br>";
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
