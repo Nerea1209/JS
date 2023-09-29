@@ -8,8 +8,10 @@
 <body>
 
     <p><strong>Matriz inicial:</strong></p>
-    <p id="matriz1">
-    <p>
+    <p id="matriz1"></p>
+
+    <p><strong>Resultado:</strong></p>
+    <p id="matriz2"></p>
 
         <script>
             let tablero = new Array();
@@ -40,6 +42,11 @@
 
             function resuelve() {
                 //función que resuelve el juego
+                for (let i = 0; i < maxx; i++) {
+                    for (let j = 0; j < maxy; j++) {
+                        oso(i, j);
+                    }
+                }
 
             }
 
@@ -51,19 +58,34 @@
                     console.log("Coordenadas de S: x = " + x + " , y = " + y);
                     for (let i = x - 1; i <= x + 1; i++) {
                         for (let j = y - 1; j <= y + 1; j++) {
-                            if (tablero[i][j] == "O") {
-                                primeraOx = i;
-                                primeraOy = j;
+                            if (i>= 0 && i<tablero.length && j>= 0 && j < tablero[i].length && tablero[i][j] == "O") {
                                 console.log("Coordenadas de O: x = " + i + " , y = " + j);
-                                if (x == i) {
-                                    console.log("Misma fila");
-                                } else if (y == j){
-                                    console.log("Misma columna");
-                                } else if ((x == i-1 && y == j-1) && (x == i+1 && y == j+1)
-                                || (x == i+1 && y == j-1) || (x == i-1 && y == j+1)){
-                                    console.log("Misma diagonal");
+                                if (primeraOx == undefined) {
+                                    primeraOx = i;
+                                    primeraOy = j;
                                 } else {
-                                    console.log("No vale");
+                                    if (x == i && x == primeraOx) {
+                                        console.log("Misma fila");
+                                        tablero[x][y] = '_';
+                                        tablero[i][j] = '_';
+                                        tablero[primeraOx][primeraOy] = '_';
+                                        break;
+                                    } else if (y == j && y == primeraOy) {
+                                        console.log("Misma columna");
+                                        tablero[x][y] = '_';
+                                        tablero[i][j] = '_';
+                                        tablero[primeraOx][primeraOy] = '_';
+                                        break;
+                                    } else if ((x == i - 1 && primeraOx == i - 2) && (y == j - 1 && primeraOy == j - 2) ||
+                                    (x == i + 1 && primeraOx == i + 2) && (y == j + 1 && primeraOy == j + 2)) {
+                                        console.log("Misma diagonal");
+                                        tablero[x][y] = '_';
+                                        tablero[i][j] = '_';
+                                        tablero[primeraOx][primeraOy] = '_';
+                                        break;
+                                    } else {
+                                        console.log("No vale");
+                                    }
                                 }
                             }
                         }
@@ -87,8 +109,8 @@
             rellena();
             imprimir(tablero, "matriz1");
             console.log(JSON.parse(JSON.stringify(tablero)));
-            oso(3, 3);
             resuelve();
+            imprimir(tablero, "matriz2");
             console.log(tablero);
 
         </script>
