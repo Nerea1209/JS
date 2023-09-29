@@ -22,7 +22,7 @@
 
     <script>
         let biocenosis = [['P', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'H', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'],
-        ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'M', 'M', 'G', 'P']];
+        ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'H', 'H', 'G', 'P']];
         // Imprimimos el array
         imprimir (biocenosis, "matriz1");
         // Para identificar el primer elemento que le pasamos a la función pandemic
@@ -82,7 +82,7 @@
             }
         }
         // Infectamos al 4, 3
-        pandemic(4, 3);
+        pandemic(5, 3);
         // Imprimimos el foco de infección
         for (let i = 0; i < biocenosis.length; i++) {
             for (let j = 0; j < biocenosis[i].length; j++) {
