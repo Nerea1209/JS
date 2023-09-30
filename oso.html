@@ -17,12 +17,12 @@
             let tablero = new Array();
             let maxx = 9;
             let maxy = 9;
-
+            // Función que devuleve un numero aleatorio entre el rango dado
             function aleatorio(min, max) {
                 var horquilla = max - min;
                 return Math.round(Math.random() * horquilla + min);
             }
-
+            // Función que rellena la matriz aleatoriamente de O y S
             function rellena() {
                 for (let i = 0; i < maxx; i++) {
                     tablero[i] = new Array();
@@ -35,67 +35,46 @@
                         }
                     }
                 }
-
             }
-
-            imprimir(tablero, "matriz1");
-
+            //función que resuelve el juego
             function resuelve() {
-                //función que resuelve el juego
                 for (let i = 0; i < maxx; i++) {
                     for (let j = 0; j < maxy; j++) {
                         oso(i, j);
                     }
                 }
-
             }
-
+            // dunción que tacha los osos
             function oso(x, y) {
-                // Izquierda
-                let primeraOx = undefined;
-                let primeraOy = undefined;
                 if (tablero[x][y] == "S") {
                     console.log("Coordenadas de S: x = " + x + " , y = " + y);
-                    for (let i = x - 1; i <= x + 1; i++) {
-                        for (let j = y - 1; j <= y + 1; j++) {
-                            if (i>= 0 && i<tablero.length && j>= 0 && j < tablero[i].length && tablero[i][j] == "O") {
-                                console.log("Coordenadas de O: x = " + i + " , y = " + j);
-                                if (primeraOx == undefined) {
-                                    primeraOx = i;
-                                    primeraOy = j;
-                                } else {
-                                    if (x == i && x == primeraOx) {
-                                        console.log("Misma fila");
-                                        tablero[x][y] = '_';
-                                        tablero[i][j] = '_';
-                                        tablero[primeraOx][primeraOy] = '_';
-                                        break;
-                                    } else if (y == j && y == primeraOy) {
-                                        console.log("Misma columna");
-                                        tablero[x][y] = '_';
-                                        tablero[i][j] = '_';
-                                        tablero[primeraOx][primeraOy] = '_';
-                                        break;
-                                    } else if ((x == i - 1 && primeraOx == i - 2) && (y == j - 1 && primeraOy == j - 2) ||
-                                    (x == i + 1 && primeraOx == i + 2) && (y == j + 1 && primeraOy == j + 2)) {
-                                        console.log("Misma diagonal");
-                                        tablero[x][y] = '_';
-                                        tablero[i][j] = '_';
-                                        tablero[primeraOx][primeraOy] = '_';
-                                        break;
-                                    } else {
-                                        console.log("No vale");
-                                    }
-                                }
-                            }
-                        }
+                    // Oso en fila
+                    if ( y > 0 && y < tablero[x].length - 1 && tablero[x][y-1] == 'O' && tablero[x][y+1] == 'O') {
+                        tablero[x][y-1] = '_';
+                        tablero[x][y] = '_';
+                        tablero[x][y+1] = '_';
+                    // Oso en columna
+                    } else if ( x > 0 && x < tablero.length - 1 && tablero[x-1][y] == 'O' && tablero[x+1][y] == 'O') {
+                        tablero[x-1][y] = '_';
+                        tablero[x][y] = '_';
+                        tablero[x+1][y] = '_';
+                    // Oso en diagonal de arriba a abajo
+                    } else if (x > 0 && x < tablero.length - 1 && y > 0 && y < tablero[x].length - 1 && tablero[x-1][y-1] == 'O' && tablero[x+1][y+1] == 'O') {
+                        tablero[x-1][y-1] = '_';
+                        tablero[x][y] = '_';
+                        tablero[x+1][y+1] = '_';
+                    // Oso en diagonal de abajo a arriba
+                    } else if (x > 0 && x < tablero.length - 1 && y > 0 && y < tablero[x].length - 1 && tablero[x-1][y+1] == 'O' && tablero[x+1][y-1] == 'O') {
+                        tablero[x-1][y+1] = '_';
+                        tablero[x][y] = '_';
+                        tablero[x+1][y-1] = '_';
+                    } else {
+                        return 0;
                     }
                 } else {
                     return 0;
                 }
             }
-
-
             // Función para imprimir
             function imprimir(array, id) {
                 for (let i = 0; i < array.length; i++) {
@@ -105,7 +84,7 @@
                     document.getElementById(id).innerHTML += "<br>";
                 }
             }
-
+            // Comprobamos las funciones
             rellena();
             imprimir(tablero, "matriz1");
             console.log(JSON.parse(JSON.stringify(tablero)));
