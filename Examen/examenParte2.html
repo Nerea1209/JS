@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RECURSIVIDAD</title>
+</head>
+
+<body>
+    <h1>FindMyGuy</h1>
+    <h3>Lista de personas:</h3>
+    <p id="lista"></p>
+    <h3>Veces que aparece la persona buscada:</h3>
+    <p id="busqueda"></p>
+    <script>
+        let people = ["perico", "juanico",
+            "andres", "dimas", "gestas", "zarco", "maimonides",
+            "elias", "jeremias", "dimas", "dimas", "gestas"];
+        console.log(people)
+        
+        function findMuGuy(nombre, size) {
+            if (size >= 0) {
+                if (people[size-1] == nombre) {
+                    return 1 + findMuGuy(nombre, size - 1);
+                } else {
+                    return findMuGuy(nombre, size - 1);
+                }
+            } else {
+                return 0;
+            }
+        }
+        document.getElementById("lista").innerHTML = people;
+        document.getElementById("busqueda").innerHTML = "Dimas aparece " + findMuGuy("dimas", people.length) + " veces";
+        console.log("Dimas aparece " + findMuGuy("gfdfg", people.length) + " veces")
+    </script>
+</body>
+
+</html>
