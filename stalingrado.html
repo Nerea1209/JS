@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h1>STALINGRADO</h1>
+    <p id="matriz"></p>
+    <h2 id="ganador"></h2>
+
+    <script>
+        let battlefield = [
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "A", "A"],
+            ["", "", "", "", "R", "", "", "A", "A"]
+        ];
+
+        let ganadores = "";
+
+        
+
+        function ruso(array, i, j) {
+            let resultado = false;
+            // mirar si tiene una R arriba, abajo, der o izq
+            if (array[i][j] == "R") {
+                array[i][j] = 'r';
+                resultado = true;
+                if (i > 0 && array[i - 1][j] == "R"){
+                    return resultado && ruso (array, i -1, j);
+                } 
+                if (i < array.length - 1 && array[i + 1][j] == "R"){
+                    return resultado && ruso (array, i + 1, j);
+                } 
+                if(j > 0 && array[i][j - 1] == "R"){
+                    return resultado && ruso (array, i, j-1);
+                } 
+                if(j < array.length - 1 && array[i][j + 1] == "R") {
+                    return resultado && ruso (array, i, j+1);
+                }
+            } else {
+                resultado = false;
+                return resultado;
+            }
+        }
+
+        
+
+        // Función para imprimir
+        function imprimir(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    if (array[i][j] == '') {
+                        document.getElementById(id).innerHTML += "- &nbsp;&nbsp;&nbsp;";
+                    } else {
+                        document.getElementById(id).innerHTML += array[i][j] + "&nbsp;&nbsp;&nbsp;";
+                    }
+                }
+                document.getElementById(id).innerHTML += "<br>";
+            }
+        }
+
+        imprimir(battlefield, "matriz");
+        for (let i = 0; i < battlefield.length; i++) {
+            for (let j = 0; j < battlefield.length; j++) {
+                console.log(ruso (battlefield, i, j));
+                if (ruso (battlefield, i, j)) {
+                   
+                    document.getElementById("ganador").innerHTML = "¡GANAN LOS RUSOS!";
+                    break;
+                } else {
+                    document.getElementById("ganador").innerHTML = "¡GANAN LOS ALEMANES!";
+                }
+            }
+        }
+        
+
+
+    </script>
+
+</body>
+
+</html>
