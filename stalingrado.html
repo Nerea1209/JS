@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
-
 <body>
-
     <h1>STALINGRADO</h1>
     <p id="matriz"></p>
     <h2 id="ganador"></h2>
-
     <script>
         let battlefield = [
-            ["A", "A", "", "", "R", "", "", "", ""],
-            ["A", "A", "", "", "R", "", "", "", ""],
-            ["", "", "", "", "R", "", "", "", ""],
+            ["A", "A", "", "", "", "", "", "", ""],
+            ["A", "A", "", "", "", "", "", "", ""],
+            ["R", "R", "R", "R", "R", "", "", "", ""],
             ["", "", "", "", "R", "", "", "", ""],
             ["", "", "", "", "R", "", "", "", ""],
             ["", "", "", "", "R", "", "", "", ""],
@@ -19,55 +16,60 @@
             ["", "", "", "", "R", "", "", "A", "A"],
             ["", "", "", "", "R", "", "", "A", "A"]
         ];
-
-        let ganadores = "";
-
-        let resultado = true;
-
-        function ruso(array, i, j, r) {
-            
+        // Función que comprueba si los rusos están unidos o no
+        function rusosUnidos(array, i, j, r) {
             // mirar si tiene una R arriba, abajo, der o izq
-            console.log (i, j, resultado, r);
-            if (resultado) {
-                console.log(array[i][j]);
+                console.log(array[i][j] + i + j);
                 if (array[i][j] == "R") {
-                    r = r + 1;
+                    r += 1;
                     array[i][j] = 'r';
-                    console.log("x = " + i + " j = " + j);
-                    if (i > 0 && array[i-1][j] == 'R'){
-                        console.log ("Arriba " + resultado, r);
-                        return ruso (array, i - 1, j, r);
-                    } 
-                    if (i < array.length - 1 && array[i+1][j] == 'R'){
-                        console.log ("Abajo " + resultado, r);
-                        return ruso (array, i + 1, j, r);
-                    } 
-                    if(j > 0 && array[i][j-1] == 'R'){
-                        console.log ("Izquierda " + resultado, r);
-                        return ruso (array, i, j-1, r);
-                    } 
-                    if(j < array[i].length - 1 && array[i][j+1] == 'R' ) {
-                        console.log ("Derecha " + resultado, r);
-                        return ruso (array, i, j+1, r);
+                    // Si la primera R, tiene una R a la derecha y abajo, comprueba la derecha y abajo
+                    if ((j < array[i].length - 1 && array[i][j+1] == 'R') && 
+                    (i < array.length - 1 && array[i+1][j] == 'R')) {
+                        return rusosUnidos (array, i, j+1, r) && rusosUnidos (array, i+1, j, r);
+                    // Si la primera R, tiene una R a la derecha y arriba, comprueba la derecha y arriba
+                    } else if ((j < array[i].length - 1 && array[i][j+1] == 'R') && 
+                    (i > 0 && array[i-1][j] == 'R')) {
+                        return rusosUnidos (array, i, j+1, r) && rusosUnidos (array, i-1, j, r);
                     }
-                    if (j+1 >= array[i].length -1 || j-1  < 0
-                    || i-1 < 0 || i+1 >= array.length - 1) {
-                        return true;
-                    } else {
+                    // Si la primera R, no está en un borde ni tiene ninguna r alrededor
+                    else if ((i > 0 && array[i-1][j] != 'r') && (i < array.length - 1 &&  array[i+1][j] != 'r')
+                    && (j > 0 && array[i][j-1] != 'r') && (j < array[i].length - 1 && array[i][j+1] != 'r')
+                    && (j+1 <= array[i].length -1 || j-1  >= 0 || i-1 >= 0 || i+1 <= array.length - 1)) {
                         return false;
                     }
-                    
+                    // Arriba
+                    if (i > 0 && array[i-1][j] == 'R'){
+                        return rusosUnidos (array, i - 1, j, r);
+                    } 
+                    // Abajo
+                    if (i < array.length - 1 && array[i+1][j] == 'R'){
+                        return rusosUnidos (array, i + 1, j, r);
+                    } 
+                    // Izquierda
+                    if(j > 0 && array[i][j-1] == 'R'){
+                        return rusosUnidos (array, i, j-1, r);
+                    } 
+                    // Derecha
+                    if(j < array[i].length - 1 && array[i][j+1] == 'R' ) {
+                        return rusosUnidos (array, i, j+1, r);
+                    }
+                    // Si es una R, no tiene R alrededor (son r's) y está en un borde: true
+                    if ((j+1 > array[i].length -1 || j-1  < 0
+                    || i-1 < 0 || i+1 > array.length - 1) && ((i > 0 && array[i-1][j] == 'r') || 
+                    (i < array.length - 1 &&  array[i+1][j] == 'r')
+                    || (j > 0 && array[i][j-1] == 'r') || (j < array[i].length - 1 && array[i][j+1] == 'r'))) {
+                        return true;
+                    } else {
+                    // Si es una R, no tiene R, ni r, 
+                    //hay un hueco por donde pasan los alemanes
+                        return false;
+                    }
+                // Si no es una R termina
                 } else {
                     return 0;
                 } 
-            } else {
-                return 0;
-            }
-            
         }
-
-        
-
         // Función para imprimir
         function imprimir(array, id) {
             for (let i = 0; i < array.length; i++) {
@@ -81,30 +83,27 @@
                 document.getElementById(id).innerHTML += "<br>";
             }
         }
-
+        // Imprimimos la matriz antes de ejecutar los cambios (para que no se vean las r's)
         imprimir(battlefield, "matriz");
-        
-        for (let i = 0; i < battlefield.length; i++) {
-            for (let j = 0; j < battlefield[i].length; j++) {
-                if (battlefield[i][j] == 'R') {
-                    console.log('i ' + i + ' j ' + j);
-                    if (ruso (battlefield, i, j, 0)) {
-                        document.getElementById("ganador").innerHTML = "¡GANAN LOS RUSOS!";
-                    } else {
-                        document.getElementById("ganador").innerHTML = "¡GANAN LOS ALEMANES!";
-                    }
-                    j = battlefield[i].length;
-                    i = battlefield.length;
+        // Función para encontrar la primera R y mostrar ganadores
+        function stalingrado (array) {
+            let i = 0;
+            let j = 0;
+            while (array[i][j] != 'R') {
+                j++;
+                if (j > array[i].length - 1) {
+                    i++;
+                    j = 0;
                 }
             }
+            if (rusosUnidos (array, i, j, 0)) {
+                document.getElementById("ganador").innerHTML = "¡GANAN LOS RUSOS!";
+            } else {
+                document.getElementById("ganador").innerHTML = "¡GANAN LOS ALEMANES!";
+            }
         }
-
-        console.log(battlefield)
-        
-
-
+        // Ejecutamos la función
+        stalingrado(battlefield);
     </script>
-
 </body>
-
 </html>
