@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CAPICUA</title>
+</head>
+
+<body>
+    <h1>Números y letras recursivas encontradas en el siguiente array</h1>
+    <p id="array"></p>
+    <p id="txt"></p>
+    <script>
+        let arr =
+            ["5", "4", "6", "5", "6", "4", "3", "F", "O", "O", "O", "T", "O", "F", "O", "O", "R", "O", "O", "T", "O"];
+        // Función para saber si es capicúa o no
+        const capicua = (arr) => {
+            let inicio = 0
+            let fin = arr.length - 1
+            while (inicio <= fin) {
+                if (arr[inicio] != arr[fin]) return 0;
+                inicio++
+                fin--
+            }
+            return 1
+        }
+        // Otra forma de saber si es capicúa o no
+        const capicua2 = (arr) => {
+            let invertido = JSON.parse(JSON.stringify(arr)).reverse()
+            console.log(arr + "--------" + invertido)
+            if (arr.toString() === invertido.toString()) return 1;
+            return 0;
+        }
+        // Función recursiva que mira las capicúas de un array
+        function isCapicua(array, longitud) {
+            if (longitud < 3 || longitud > array.length - 1) {
+                return 0;
+            } else {
+                for (let i = 0; i < arr.length - longitud + 1; i++) {
+                    //console.log(arr.slice(i,i+longitud))
+                    if (capicua2(arr.slice(i, i + longitud)) == 1) {
+                        console.log(arr.slice(i, i + longitud) + " es capicua")
+                        document.getElementById('txt').innerHTML += arr.slice(i, i + longitud) + "<br/>";
+                    }
+                }
+                return isCapicua(array, longitud + 1);
+            }
+        }
+        // Ejecutamos la función
+        isCapicua(arr, 3);
+        // Función para imprimir
+        function imprimir(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                document.getElementById(id).innerHTML += array[i] + "&nbsp;&nbsp;&nbsp;";
+            }
+        }
+        // Imprimimos la matriz antes de ejecutar los cambios (para que no se vean las a's)
+        imprimir(arr, "array");
+    </script>
+</body>
+
+</html>
