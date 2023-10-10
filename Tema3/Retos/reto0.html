@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reto 0</title>
+</head>
+<body>
+    <h1>Reto 0</h1>
+    <p>Buscar el nombre de la ciudad de un CP dado</p>
+    <p>
+        <input type="text" name="cd" id="cd"/>
+        <input type="button" value="Buscar" id="buscar" name="buscar" onclick="dale()">
+    </p>
+    <p id="txt"></p>
+    <script>
+        let array = [{CD:28924, Ciudad:"Estepona"},{CD:29601, Ciudad:"Marbella"}];
+        
+        function dale() {
+            let buscar = array.filter((v) => v.CD == document.getElementById("cd").value);
+            console.log(buscar)
+            if (buscar.length == 0) {
+                document.getElementById("txt").innerHTML = 'No existe ese código postal';
+            } else {
+                document.getElementById("txt").innerHTML = buscar.map((v) => v.Ciudad);
+            }
+        }
+    </script>
+</body>
+</html>
