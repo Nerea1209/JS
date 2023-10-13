@@ -10,20 +10,7 @@
         var cars = ["Saab", "Volvo", "BMW", ["Honda", "Toyota", ["Lexus", "Mercedes", "Lada"], "Hyunday"]];
         var carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
         //Alguien sabe hacer una lista única de coches con los dos arrays (sin repeticiones)?
-        var carsUnicos = [];
-        cars.flat();
-        for (let i = 0; i < cars.length; i++) {
-            if (carsUnicos.find((v) => v == cars[i])) {
-                carsUnicos.push(cars[i]);
-            }
-        }
-        carrakos.flat();
-        for (let i = 0; i < carrakos.length; i++) {
-            if (carsUnicos.find((v) => v != carrakos[i])) {
-                carsUnicos.push(carrakos[i]);
-            }
-        }
-        console.log(carsUnicos);
+        console.log(cars.flat() + carrakos.flat());
         //Alguien sabría decirme los coches de carrakos que no estén en cars?
         console.log(carrakos.flat().filter((v) => v));
 
@@ -34,7 +21,7 @@
         //-Marcas utilizadas por los buddies
         console.log(buddies.map((v) => v.car))
         //-Marcas no utilizadas por los buddies.
-
+        console.log(buddies.filter((v) => v.car))
         //-Cuantas marcas han sido utilizadas
         console.log(buddies.map((v) => v.car).length)
         //-Cuantas marcas no han sido utilizadas
