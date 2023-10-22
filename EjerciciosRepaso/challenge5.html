@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge V</title>
+</head>
+
+<body>
+    <input type="text" id="text">
+    <input type="button" id="boton" onclick="dale()" value="Enviar">
+    <p id="salida"></p>
+    <script>
+        function dale() {
+            let array = document.getElementById("text").value.trim().replace(":"," ").replace("."," ").replace(","," ").replace(";"," ")
+            .split(" ").filter(v => v != "");
+            console.log(array)
+            let resultado = '';
+            for (let i = 0; i < array.length; i++) {
+                for (let j = array[i].length - 1; j >= 0; j--) {
+                    resultado += array[i][j];
+                }
+                resultado += " ";
+            }
+            document.getElementById("salida").innerHTML = resultado;
+        }
+    </script>
+</body>
+
+</html>
