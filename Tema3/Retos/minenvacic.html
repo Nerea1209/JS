@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minevancic color</title>
+</head>
+
+<body>
+    <script>
+        let minas = [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0]
+        ];
+        for (let i = 0; i < minas.length; i++) {
+            for (let j = 0; j < minas[i].length; j++) {
+                if (minas[i][j] == 1) {
+                    rango(i, j, minas)
+                }
+            }
+        }
+        function rango(x, y, matriz) {
+            for (let i = x-5; i <= x+5; i++) {
+                for (let j = y-5; j <= y+5; j++) {
+                    let cont = 0;
+                    if (i == x-1 || j == y - 1 || i == x+1 || j == y + 1) {
+                        cont = 2;
+                    }
+                    if (i == x-2 || j == y - 2 || i == x+2 || j == y + 2) {
+                        cont = 3;
+                    }
+                    if (i == x-3 || j == y - 3 || i == x+3 || j == y + 3) {
+                        cont = 4;
+                    }
+                    if (i <= x-4 || j <= y - 4 || i >= x+4 || j >= y + 4) {
+                        cont = 5;
+                    }
+                    
+                // Arriba
+                if (i >= 0 && i < matriz.length && j >= 0 && j < matriz[i].length && matriz[i][j] != 1 && (matriz[i][j] == 0 || matriz[i][j] > cont)) {
+                    matriz[i][j] = cont;
+                    console.log('x ' + (i) + ' y ' + (j))
+                }
+                
+        }}}
+        console.log(minas)
+    </script>
+</body>
+
+</html>
