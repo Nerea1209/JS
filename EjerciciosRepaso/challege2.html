@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge II</title>
+</head>
+
+<body>
+    <h1>¿Quiénes son las 3 personas más populares?</h1>
+    <p id="array"></p>
+    <p id="popular">La persona más popular es </p>
+    <script>
+        let array = ['Maria', 'Lucas', 'Eduardo', 'Cristina', 'Maria', 'Cristina', 'Paco', 'Cristina'];
+        function popular(array) {
+            let popular = [["", 0], ["", 0], ["", 0]];
+            for (let i = 0; i < array.length; i++) {
+                console.log(popular[0][1])
+                if (popular.find(v => v[0] == array[i]) == undefined && popular[0][1] < findMuGuy(array[i], array.length, array)) {
+                    popular[0] = ([array[i], findMuGuy(array[i], array.length, array)])
+                }
+                if (popular.find(v => v[0] == array[i]) == undefined && popular[1][1] < findMuGuy(array[i], array.length, array)) {
+                    popular[1] = ([array[i], findMuGuy(array[i], array.length, array)])
+                }
+                if (popular.find(v => v[0] == array[i]) == undefined && popular[2][1] < findMuGuy(array[i], array.length, array)) {
+                    popular[2] = ([array[i], findMuGuy(array[i], array.length, array)])
+                }
+            }
+            return popular.map(v => v[0]);
+        }
+
+        function findMuGuy(nombre, size, matriz) {
+            if (size >= 0) {
+                if (matriz[size - 1] == nombre) {
+                    return 1 + findMuGuy(nombre, size - 1, matriz);
+                } else {
+                    return findMuGuy(nombre, size - 1, matriz);
+                }
+            } else {
+                return 0;
+            }
+        }
+        document.getElementById('array').innerHTML = array;
+        document.getElementById('popular').innerHTML += popular(array);
+    </script>
+</body>
+
+</html>
