@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge III</title>
+</head>
+<body>
+    <script>
+        // Función que devuleve un numero aleatorio entre el rango dado
+        function aleatorio(min, max) {
+            var horquilla = max - min;
+            return Math.round(Math.random() * horquilla + min);
+        }
+
+        function crearArrayAleatorio (size, min, max) {
+            let array = [size];
+            for (let i = 0 ; i < size ; i++) {
+                let a = aleatorio(min,max);
+                let aux = array.find(v => v == a);
+                if (aux == undefined) {
+                    array[i] = a;
+                } else {
+                    i--;
+                }
+                
+            }
+            return array;
+        }
+
+        console.log(crearArrayAleatorio(100, 1, 1000));
+
+    </script>
+</body>
+</html>
