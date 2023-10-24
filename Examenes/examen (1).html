@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HEAVEN</title>
+</head>
+
+<body>
+    <h1>La escapada de Luis Candelas</h1>
+    <p id="matriz"></p>
+    <p id="resultado"></p>
+    <script>
+        let mapa = [['*', '', '', '', '', ''],
+                    ['*', '', '', '', '', ''],
+                    ['*', '', '', '', '', ''],
+                    ['*', '', '', '', '', ''],
+                    ['*', '*', '*', '*', '*', '*']];
+        // Función recursiva que comprueba si hay un camino entre la entrada y la salida
+        function heaven (matriz, x, y) {
+            if (matriz[x][y] == '*'){
+                matriz[x][y] = 'o';
+                // Arriba
+                if(x > 0 && matriz[x-1][y] == '*') {
+                    console.log('arriba')
+                    return heaven(matriz, x-1, y);
+                }
+                // Abajo
+                if(x < matriz.length - 1 && matriz[x+1][y] == '*') {
+                    console.log('abajo')
+                    return heaven(matriz, x+1, y);
+                }
+                // Izquierda
+                if(y > 0 && matriz[x][y-1] == '*') {
+                    console.log('izq')
+                    return heaven(matriz, x, y-1);
+                }
+                // Derecha
+                if(y < matriz[x].length - 1 && matriz[x][y+1] == '*') {
+                    console.log('der')
+                    return heaven(matriz, x, y+1);
+                }
+                if (x == matriz.length-1 && y == matriz[matriz.length-1].length - 1) {
+                    document.getElementById('resultado').innerHTML = 'SEMOS LIBRES';
+                } 
+            } else {
+                return 0;
+            }
+        }
+        // Función para imprimir la matriz
+        function imprimir (matriz) {
+            for (let i = 0; i < matriz.length; i++) {
+                for (let j = 0; j < matriz[i].length; j++) {
+                    if (matriz[i][j] != '') {
+                        document.getElementById('matriz').innerHTML += matriz[i][j] + ',';
+                    } else {
+                        document.getElementById('matriz').innerHTML += ' ,';
+                    }
+                }
+                document.getElementById('matriz').innerHTML += '<br/>'; 
+            }
+        }
+        // Imprimimos la matriz
+        imprimir(mapa);
+        // Comprobamos el camino empezando por la entrada
+        heaven(mapa, 0, 0)
+        
+    </script>
+</body>
+
+</html>

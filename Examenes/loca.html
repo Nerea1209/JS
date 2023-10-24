@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0" />
+    <title>LAS TORTAS LOCAS</title>
+</head>
+
+<body>
+    <script>
+        var clientaUno = ""
+        var clientaDos = ""
+        var clientaTres = ""
+        var numclientaUno = 0;
+        var numclientaDos = 0;
+        var numclientaTres = 0;
+        const TORTAS =
+            ["Rodica", "Emma", "Sofia", "Marina", "Valia", "Valia", "Valia",
+                "Valia", "Valia", "Valia", "Emma", "Emma", "Maria", "Marina", "Emma"]
+
+        // Esta es la primera forma que se me ocurrió
+        // pero al final del examen se me ha ocurrido que podría haber usado find() para sumar el num :(
+        console.log(TORTAS.sort().map((valor, indice, array) => {
+            if (indice > 0 && array[indice - 1] == valor && clientaUno == valor) {
+                numclientaUno++;
+            }
+            if (indice > 0 && array[indice - 1] == valor && clientaDos == valor) {
+                numclientaDos++;
+            }
+            if (indice > 0 && array[indice - 1] == valor && clientaTres == valor) {
+                numclientaTres++;
+            }
+
+            if (indice == 0) {
+                clientaUno = valor;
+                numclientaUno++;
+            }
+
+            if (indice > 0 && array[indice - 1] == valor && valor != clientaUno && clientaDos == "" && numclientaDos <= numclientaUno) {
+                clientaDos = valor;
+                numclientaDos += 2;
+            }
+            if (indice > 0 && array[indice - 1] == valor && valor != clientaUno && clientaDos == "" && numclientaDos > numclientaUno) {
+                clientaDos = clientaUno;
+                numclientaDos = numclientaUno;
+                clientaUno = valor;
+                numclientaUno += 2;
+            }
+
+            if (indice > 0 && array[indice - 1] == valor && valor != clientaDos && valor != clientaUno && clientaTres == "" && numclientaTres <= numclientaDos) {
+                clientaTres = valor;
+                numclientaTres += 2;
+            }
+            if (indice > 0 && array[indice - 1] == valor && valor != clientaDos && valor != clientaUno && clientaTres == "" && numclientaTres > numclientaDos) {
+                clientaTres = clientaDos;
+                numclientaTres = numclientaDos;
+                clientaDos = valor;
+                numclientaDos += 2;
+            }
+
+            if (indice >= 0 && indice < array.length) return valor;
+        }))
+
+        if (numclientaUno >= numclientaDos && numclientaUno >= numclientaTres && numclientaDos >= numclientaTres) {
+            console.log(clientaUno + ":" + numclientaUno)
+            console.log(clientaDos + ":" + numclientaDos)
+            console.log(clientaTres + ":" + numclientaTres)
+        }
+        if (numclientaUno >= numclientaDos && numclientaUno >= numclientaTres && numclientaTres >= numclientaDos) {
+            console.log(clientaUno + ":" + numclientaUno)
+            console.log(clientaTres + ":" + numclientaTres)
+            console.log(clientaDos + ":" + numclientaDos)
+        }
+
+        if (numclientaDos >= numclientaUno && numclientaDos >= numclientaTres && numclientaUno >= numclientaTres) {
+            console.log(clientaDos + ":" + numclientaDos)
+            console.log(clientaUno + ":" + numclientaUno)
+            console.log(clientaTres + ":" + numclientaTres)
+        }
+
+        if (numclientaDos >= numclientaUno && numclientaDos >= numclientaTres && numclientaUno <= numclientaTres) {
+            console.log(clientaDos + ":" + numclientaDos)
+            console.log(clientaTres + ":" + numclientaTres)
+            console.log(clientaUno + ":" + numclientaUno)
+        }
+
+        if (numclientaTres >= numclientaUno && numclientaTres >= numclientaDos && numclientaUno >= numclientaDos) {
+            console.log(clientaTres + ":" + numclientaTres)
+            console.log(clientaUno + ":" + numclientaUno)
+            console.log(clientaDos + ":" + numclientaDos)
+        }
+
+        if (numclientaTres >= numclientaUno && numclientaTres >= numclientaDos && numclientaUno <= numclientaDos) {
+            console.log(clientaTres + ":" + numclientaTres)
+            console.log(clientaDos + ":" + numclientaDos)
+            console.log(clientaUno + ":" + numclientaUno)
+        }
+
+    </script>
+</body>
+
+</html>
