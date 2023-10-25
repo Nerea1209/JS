@@ -24,30 +24,29 @@
 
         // ESCRIBE AQUÍ TU CÓDIGO
         const coloca = (nombre, cuantos) => {
-            if(cuantos >= clientaDos && cuantos >= clientaTres && nombre != clientaDos && nombre != clientaTres) {
+            console.log(clientaUno + numclientaUno + clientaDos + numclientaDos + clientaTres + numclientaTres)
+            if (cuantos > numclientaUno) {
+                if (nombre != clientaUno) {
+                    clientaTres = clientaDos; numclientaTres = numclientaDos;
+                    clientaDos = clientaUno; numclientaDos = numclientaUno;
+                }
                 clientaUno = nombre;
                 numclientaUno = cuantos;
+                return 0;
             }
-
-            if(cuantos <= clientaUno && cuantos >= clientaTres && nombre != clientaUno && nombre != clientaTres) {
+            if (cuantos > numclientaDos && nombre != clientaUno) {
+                if (nombre != clientaDos) {
+                    clientaTres = clientaDos; numclientaTres = numclientaDos;
+                }
                 clientaDos = nombre;
                 numclientaDos = cuantos;
-            } 
-            if (cuantos >= clientaUno && cuantos >= clientaTres && nombre != clientaUno && nombre != clientaTres) {
-                clientaDos = clientaUno;
-                numclientaDos = numclientaUno;
-                clientaUno = nombre;
-                numclientaUno = cuantos;
+                return 0;
             }
+            if (cuantos > numclientaTres && nombre != clientaUno && nombre != clientaDos) {
 
-            if(cuantos <= clientaUno && cuantos <= clientaDos && nombre != clientaUno && nombre != clientaDos) {
                 clientaTres = nombre;
                 numclientaTres = cuantos;
-            } else {
-                clientaTres = clientaDos;
-                numclientaTres = numclientaDos;
-                clientaDos = nombre;
-                numclientaDos = cuantos;
+                return 0;
             }
         }
 
