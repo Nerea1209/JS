@@ -33,8 +33,10 @@
 
         let xungas = ["Honda", "Lada"]
         //EJERCICIO 1
+        // 1 línea
         console.log(newcars.flat(Infinity).filter(v => v == "Volvo").length);
         //EJERCICIO 2
+        // 3 líneas
         let trendy = [];
         buddies.map(v => v.car).map(v => {
             if(buddies.map(v => v.car).filter(l => l == v).length > 1 && !trendy.find(m => m == v)) {
@@ -43,7 +45,24 @@
         });
         console.log(trendy)
         //EJERCICIO 3
+        // 1 línea
+        console.log(newcars.flat(Infinity).map(v => {
+            // newcars que estén en buddies
+            let aux = buddies.map(k => k.car).find(l => l == v);
+            // newcars que no estén en xungas
+            let aux2 = xungas.find(l => l == v);
+            if (aux != undefined && aux2 === undefined) return v;
+        }).filter(m => m != undefined));
         //EJERCICIO 4
+        // 2 líneas
+        let trend = [undefined, 0];
+        console.log(buddies.map(v => v.car).map(v => {
+            if(buddies.map(v => v.car).filter(l => l == v).length > trend[1]) {
+                trend[1] = buddies.map(v => v.car).filter(l => l == v).length;
+                trend[0] = v;
+            }
+            if (v === trend[0]) return v;
+        }).filter(l => l === trend[0])[0]);
     </script>
 </body>
 
