@@ -12,22 +12,22 @@
 
         var carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
 
-        let obj = document.getElementById("carrakos");
-        let visualiza = (arr, obj) => {
-            arr.map(e => {
-                if (Array.isArray(e)) {
-                    let newobj = document.createElement("ul");
-                    obj.appendChild(newobj)
-                    visualiza(e, newobj)
+        let padre = document.getElementById("carrakos");
+        let visualiza = (array, padre) => {
+            array.map(v => {
+                if (Array.isArray(v)) {
+                    let ul = document.createElement("ul");
+                    padre.appendChild(ul)
+                    visualiza(v, ul)
                 } else {
                     let nodoCoche = document.createElement("li");
-                    let texto = document.createTextNode(e);
+                    let texto = document.createTextNode(v);
                     nodoCoche.appendChild(texto);
-                    obj.appendChild(nodoCoche);
+                    padre.appendChild(nodoCoche);
                 }
             })
         }
-        visualiza(carrakos, obj);
+        visualiza(carrakos, padre);
 
 
     </script>
