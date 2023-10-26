@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 8</title>
+</head>
+<body>
+    <script>
+        const REYES = ["Chindatore",["Chindasvinto","Rencesvinto","Lautaro"],
+        ["Lauro","Sisebuto",["Fracisbuto","Vigafredo",["Leovigildo","Recaredo"]]],"Amalarico II"];
+
+        
+        function generacion (array, cont) {
+            array.map(l => {
+                if (Array.isArray(l)) {
+                    generacion(l, cont + 1);
+                } else {
+                    console.log(l + " es de " + cont + " generación")
+                }
+            })
+        }
+
+        generacion(REYES,1);
+            
+    </script>
+</body>
+</html>
