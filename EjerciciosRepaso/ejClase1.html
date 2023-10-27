@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VIKINGS</title>
+</head>
+
+<body>
+    <script>
+        const REYES = ["Chindatore", ["Lauro", "Sisebuto", ["Fracisbuto", "Vigafredo", ["Leovigildo", "Recaredo"]]], ["Chindasvinto", "Rencesvinto", "Lautaro"], "Amalarico II"];
+
+        const MALOS = ["Fracisbuto", "Vigafredo", "Lauro"]
+
+        // ¿CUántos reyes de REYES son malos?
+
+        console.log(REYES.flat(Infinity).filter(v => MALOS.find(l => l === v)).length);
+    </script>
+
+</body>
+
+</html>
