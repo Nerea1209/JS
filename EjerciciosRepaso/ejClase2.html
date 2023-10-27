@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VIKINGS</title>
+</head>
+
+<body>
+    <script>
+        const REYES = ["Chindatore", ["Lauro", "Sisebuto", ["Fracisbuto", "Vigafredo", ["Leovigildo", "Recaredo"]]], ["Chindasvinto", "Rencesvinto", "Lautaro"], "Amalarico II"];
+
+        const MALOS = ["Fracisbuto", "Vigafredo", "Lauro"]
+
+        // ¿Cual es el más famoso?
+        let reyFamoso = [undefined, 0];
+        REYES.flat(Infinity).map(v => {
+            if (REYES.flat(Infinity).filter(l => l === v).length > reyFamoso[1]) {
+                reyFamoso[0] = v;
+                reyFamoso[1] = REYES.flat(Infinity).filter(l => l === v).length;
+            }
+        });
+        console.log(reyFamoso)
+    </script>
+
+</body>
+
+</html>
