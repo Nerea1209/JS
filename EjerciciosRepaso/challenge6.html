@@ -11,6 +11,19 @@
         ["Lauro","Sisebuto",["Fracisbuto","Vigafredo",["Leovigildo","Recaredo"]]],"Amalarico II"];
 
         console.log(REYES.filter(v => Array.isArray(v)).flat().filter(k => !Array.isArray(k)));
+
+        // Manera recursiva
+        function generacionPar (array, generacion) {
+            array.map(v => {
+                if (Array.isArray(v)) {
+                    generacionPar(v, !generacion);
+                } else {
+                    if (generacion) console.log(v);
+                }
+            })
+        }
+
+        generacionPar(REYES, false)
     </script>
 </body>
 </html>

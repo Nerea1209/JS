@@ -9,13 +9,29 @@
     <script>
         var vikings = '{"vikingos":[{"reino":"Noruega","reyes":["Hakon","Harald",["Ivar",["Olaf","Lars","Lasse"],"Bjorn"],"Ragnar"]},{"reino":"Dinamarca","reyes":["Frodo","Hamming",["Angantyr","Sarunas"],"Horik"]}]}';
         // skriv inn koden din her. Vær forsiktig med at json-en jukser. Det er ikke en matrise, men et objekt.
+        let json = JSON.parse(vikings);
         function rey(nombre, obj) {
-            let json = JSON.parse(obj);
             let aux = json.vikingos.find(v => v.reyes.flat(Infinity).find(l => l === nombre));
             if (aux != undefined) return nombre + " sí es rey";
             else return nombre + " no es rey";
         }
         console.log(rey("Olaf", vikings));
+
+        // Manera recursiva diciendo si es o no rey cada hombre de la lista
+        const buscaMan=(arr,nombre)=>{
+            let cuantos = 0
+            if (Array.isArray(arr)){
+            arr.map(x=> cuantos+=buscaMan(x,nombre))
+            }else{
+            if (arr==nombre)cuantos++
+            }
+            return cuantos;
+            }
+            
+            const esrey=(rey)=>{
+            vikings.vikingos.find(e=>e.reyes.find(r=>buscaMan(r,rey)))===undefined?console.log(rey+" NO ES"):console.log(rey+" SI ES")
+            }
+            
 
     </script>
 
