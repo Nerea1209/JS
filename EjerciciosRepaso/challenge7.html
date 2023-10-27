@@ -15,7 +15,8 @@
             let result = cont;
             if (array.filter(v => Array.isArray(v)).length > 0) {
                 array.filter(v => Array.isArray(v)).map(k => {
-                    result = ultimaGeneracion(k, cont + 1);
+                    aux = ultimaGeneracion(k, cont + 1);
+                    if (aux > result) result = aux; 
                 })
             }
             return result;
