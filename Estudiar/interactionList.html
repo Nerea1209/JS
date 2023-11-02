@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>INTERSECTION LIST</title>
+</head>
+
+<body>
+    PRIMERA LISTA:
+    <ul id="lista1">
+        <li>manzana</li>
+        <li>pera</li>
+        <ul>
+            <li>conferencia</li>
+            <ul>
+                <li>conferenciaverde</li>
+                <li>conferenciaamarilla</li>
+                <li>conferenciaroja</li>
+            </ul>
+            <li>peradeagua</li>
+            <li>peritadulce</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>limon</li>
+        <li>limon</li>
+        <li>LIMON</li>
+    </ul>
+
+    Segunda lista:
+    <ul id="lista2">
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>pera</li>
+        <li>limon</li>
+        <li>jose</li>
+        <li>jose</li>
+    </ul>
+
+    <script>
+        //Declarar las listas
+        var lista1 = [];
+        var lista2 = [];
+        var newlista = [];
+        //Insertar las dos listas del DOM en 2 arrays diferentes.
+        inserta(document.getElementById("lista1"), lista1);
+        inserta(document.getElementById("lista2"), lista2);
+        //Ordenar las dos listas y eliminar duplicados. Si ordeno las listas puedo quitar los duplicados de forma fácil porque estarán juntos.
+        lista1.sort();
+        eliminaDuplicados(lista1);
+        lista2.sort();
+        eliminaDuplicados(lista1);
+        //Crear una nueva lista concatenando el resultado de las dos anteriores.
+        lista1 = lista1.concat(lista2);
+        //Ordenar la nueva lista
+        lista1.sort();
+        //Los duplicados en esa nueva lista serán la intersección que voy buscando.
+        buscaDuplicados(lista1, newlista);
+        eliminaDuplicados(newlista);
+        //mostrar el resultado
+
+        console.log(newlista);
+        //funciones del backbone
+        function buscaDuplicados(lista, hasta) {
+            for (let i = 0; i < lista.length - 1; i++) {
+                if (lista[i] == lista[i + 1]) {
+                    hasta.push(lista[i]);
+                }
+            }
+        }
+        function eliminaDuplicados(lista) {
+            let dup = 1;
+            while (lista.length > 1 && dup == 1) {
+                dup = 0;
+                for (let i = 0; i < lista.length - 1; i++) {
+                    if (lista[i] == lista[i + 1]) {
+                        lista.splice(i, 1);
+                        dup = 1;
+                    }
+                }
+            }
+        }
+        function inserta(desde, hasta) {
+            if (desde.nodeName ==
+                "LI") { hasta.push(desde.innerHTML.toUpperCase()); }
+            for (let i = 0; i < desde.children.length; i++) {
+                inserta(desde.children[i], hasta);
+            }
+        }
+    </script>
+</body>
+
+</html>
