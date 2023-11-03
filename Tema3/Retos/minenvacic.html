@@ -8,6 +8,11 @@
 </head>
 
 <body>
+    <h1>Minevancic color</h1>
+    <p>Matriz inicial:</p>
+    <p id="matriz1"></p>
+    <p>Matriz resuelta:</p>
+    <p id="matriz2"></p>
     <script>
         let minas = [
             [0, 0, 0, 0, 0, 0, 0],
@@ -17,6 +22,9 @@
             [0, 0, 0, 0, 0, 1, 0],
             [0, 0, 0, 0, 0, 0, 0]
         ];
+
+        imprimir(minas, "matriz1")
+
         for (let i = 0; i < minas.length; i++) {
             for (let j = 0; j < minas[i].length; j++) {
                 if (minas[i][j] == 1) {
@@ -44,11 +52,20 @@
                 // Arriba
                 if (i >= 0 && i < matriz.length && j >= 0 && j < matriz[i].length && matriz[i][j] != 1 && (matriz[i][j] == 0 || matriz[i][j] > cont)) {
                     matriz[i][j] = cont;
-                    console.log('x ' + (i) + ' y ' + (j))
                 }
                 
         }}}
         console.log(minas)
+        imprimir(minas, "matriz2")
+
+        function imprimir(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    document.getElementById(id).innerHTML += array[i][j] + "&nbsp;&nbsp;&nbsp;";
+                }
+                document.getElementById(id).innerHTML += "<br>";
+            }
+        }
     </script>
 </body>
 
