@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UNION LIST</title>
+</head>
+
+<body>
+    PRIMERA LISTA:
+    <ul id="lista1">
+        <li>manzana</li>
+        <li>pera</li>
+        <ul>
+            <li>conferencia</li>
+            <ul>
+                <li>conferenciaverde</li>
+                <li>conferenciaamarilla</li>
+                <li>conferenciaroja</li>
+            </ul>
+            <li>peradeagua</li>
+            <li>peritadulce</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>limon</li>
+        <li>limon</li>
+        <li>LIMON</li>
+    </ul>
+    Segunda lista:
+    <ul id="lista2">
+        <li>manzana</li>
+        <li>manzana</li>
+        <ul>
+            <li>manzana</li>
+            <li>manzana</li>
+        </ul>
+        <li>pera</li>
+        <li>limon</li>
+    </ul>
+    Tercera lista:
+    <ol id="lista3">
+    </ol>
+    <script>
+        // Realiza un programa que muestre por consola la UNION de las dos listas SIN DUPLICADOS de forma
+
+        // Declarar las listas
+        let lista1 = [];
+        let lista2 = [];
+        let newlista = [];
+
+        // Insertar los datos
+        insertar(document.getElementById("lista1"), lista1);
+        insertar(document.getElementById("lista2"), lista2);
+
+        // Unimos las dos listas
+        lista1.map(v => {
+            newlista.push(v);
+        })
+        lista2.map(v => {
+            newlista.push(v);
+        })
+
+        // Ordenamos la lista
+        newlista.sort();
+        
+
+        // Quitamos duplicados
+        newlista = newlista.filter((v, i, array) => i == 0 || array[i] != array[i+1]);
+        console.log(newlista)
+
+        // Mostrar en html
+        let padre = document.getElementById("lista3");
+        newlista.map(v => {
+            let nodo = document.createElement("li");
+            let texto = document.createTextNode(v.toLowerCase());
+            nodo.appendChild(texto);
+            padre.appendChild(nodo);
+        })
+
+        
+        // Funciones
+        function insertar (desde, hasta) {
+            if (desde.nodeName == "LI") {
+                hasta.push(desde.innerHTML.toUpperCase());
+            } else {
+                for (let i = 0; i < desde.children.length; i++) {
+                    insertar(desde.children[i], hasta);
+                }
+            }
+        }
+
+        
+    </script>
+</body>
+
+</html>
