@@ -52,12 +52,12 @@
         inserta(document.getElementById("lista1"), lista1);
         inserta(document.getElementById("lista2"), lista2);
 
-        function inserta (desde, hasta) {
+        function inserta(desde, hasta) {
             if (desde.nodeName == "LI") {
                 hasta.push(desde.innerHTML.toUpperCase());
             } else {
                 for (let i = 0; i < desde.children.lenght; i++) {
-                    inserta (desde.children[i], hasta);
+                    inserta(desde.children[i], hasta);
                 }
             }
         }
@@ -65,10 +65,10 @@
         //Ordenar las dos listas y eliminar duplicados. Si ordeno las listas puedo quitar los duplicados de forma fácil porque estarán juntos.
         lista1.sort();
         // eliminaDuplicados(lista1);
-        lista1 = lista1.filter((v, i, array) => i == 0 || array[i] != array[i-1])
+        lista1 = lista1.filter((v, i, array) => i == 0 || array[i] != array[i - 1])
         lista2.sort();
         // eliminaDuplicados(lista2);
-        lista2 = lista2.filter((v, i, array) => i == 0 || array[i] != array[i-1])
+        lista2 = lista2.filter((v, i, array) => i == 0 || array[i] != array[i - 1])
 
 
 
@@ -80,12 +80,12 @@
 
         //Los duplicados en esa nueva lista serán la intersección que voy buscando.
         // buscaDuplicados(lista1, newlista);
-        newLista = newLista.filter((v, i, array) => i > 0 && array[i] == array[i-1])
+        newLista = newLista.filter((v, i, array) => i > 0 && array[i] == array[i - 1])
 
         //mostrar el resultado
         console.log(newlista);
 
-        
+
 
     </script>
 

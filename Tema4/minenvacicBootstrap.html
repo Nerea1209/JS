@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minevancic color</title>
+</head>
+
+<body>
+    <h1>Minevancic color</h1>
+    <p>Matriz inicial:</p>
+    <p id="matriz1"></p>
+    <p>Matriz resuelta:</p>
+    <p id="matriz2"></p>
+    <script>
+        let minas = [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        imprimir(minas, "matriz1");
+
+        // Cambiamos todos los ceros a Infinity
+        minas = minas.map(v => v.map(l => {
+            if (l != 1) return Infinity;
+            else return l;
+        }))
+        
+        // Resolvemos minevancic e imprimimos
+        minevancic(minas);
+        console.log(minas);
+        imprimir(minas, "matriz2")
+
+        // Funciones
+        function minevancic(array) {
+            // Cambiamos a fuerza bruta
+            let c = true;
+            while (c) {
+                c = false;
+                for (let i = 0; i < array.length; i++) {
+                    for (let j = 0; j < array[i].length; j++) {
+                        // Arriba
+                        if (i > 0 && array[i][j] > array[i-1][j] + 1) {
+                            array[i][j] = array[i-1][j] + 1;
+                            c = true;
+                        }
+                        // Abajo
+                        if (i < array.length - 1 && array[i][j] > array[i+1][j] + 1) {
+                            array[i][j] = array[i+1][j] + 1;
+                            c = true;
+                        }
+                        // Derecha
+                        if (j < array[i].length - 1 && array[i][j] > array[i][j+1] + 1) {
+                            array[i][j] = array[i][j+1] + 1;
+                            c = true;
+                        }
+                        // Izquierda
+                        if (j > 0 && array[i][j] > array[i][j-1] + 1) {
+                            array[i][j] = array[i][j-1] + 1;
+                            c = true;
+                        }
+                        // Diagonal arriba derecha
+                        if (j < array[i].length - 1 && i > 0 && array[i][j] > array[i-1][j+1] + 1) {
+                            array[i][j] = array[i-1][j+1] + 1;
+                            c = true;
+                        }
+                        // Diagonal arriba izquierda
+                        if (j > 0 && i > 0 && array[i][j] > array[i-1][j-1] + 1) {
+                            array[i][j] = array[i-1][j-1] + 1;
+                            c = true;
+                        }
+                        // Diagonal abajo derecha
+                        if (j < array[i].length - 1 && i < array.length - 1 && array[i][j] > array[i+1][j+1] + 1) {
+                            array[i][j] = array[i+1][j+1] + 1;
+                            c = true;
+                        }
+                        // Diagonal abajo izquierda
+                        if (j > 0 && i < array.length - 1 && array[i][j] > array[i+1][j-1] + 1) {
+                            array[i][j] = array[i+1][j-1] + 1;
+                            c = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        function imprimir(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    document.getElementById(id).innerHTML += array[i][j] + "&nbsp;&nbsp;&nbsp;";
+                }
+                document.getElementById(id).innerHTML += "<br>";
+            }
+        }
+    </script>
+</body>
+
+</html>
