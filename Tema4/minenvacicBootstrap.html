@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minevancic color</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
@@ -92,7 +93,31 @@
         function imprimir(array, id) {
             for (let i = 0; i < array.length; i++) {
                 for (let j = 0; j < array[i].length; j++) {
-                    document.getElementById(id).innerHTML += array[i][j] + "&nbsp;&nbsp;&nbsp;";
+                    let button = undefined;
+                    switch (array[i][j]) {
+                        case 0:
+                            button = '<button type="button" class="btn btn-outline-danger">0</button>'
+                            break;
+                        case 1:
+                            button = '<button type="button" class="btn btn-danger">1</button>'
+                            break;
+                        case 2:
+                            button = '<button type="button" class="btn btn-warning">2</button>'
+                            break;
+                        case 3:
+                            button = '<button type="button" class="btn btn-info">3</button>'
+                            break;
+                        case 4:
+                            button = '<button type="button" class="btn btn-secondary">4</button>'
+                            break;
+                        case 5:
+                            button = '<button type="button" class="btn btn-dark">5</button>'
+                            break;
+                        default:
+                            button = '<button type="button" class="btn btn-success">' + array[i][j] + '</button>'
+                            break;
+                    }
+                    document.getElementById(id).innerHTML += button;
                 }
                 document.getElementById(id).innerHTML += "<br>";
             }
