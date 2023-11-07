@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minevancic color</title>
+    <style>
+        body {padding: 1rem;}
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Minevancic color</h1>
+    <p>Matriz inicial:</p>
+    <p id="matriz1"></p>
+    <p id="matriz2"></p>
+    <script>
+        let minas = [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        imprimirColor(minas, "matriz1");
+
+        // Cambiamos todos los ceros a Infinity
+        minas = minas.map(v => v.map(l => {
+            if (l != 1) return Infinity;
+            else return l;
+        }))
+        
+        // Resolvemos minevancic e imprimimos
+        function resolver(boton) {
+            console.log(minevancic(minas));
+            document.getElementById("matriz2").innerHTML = "Matriz resuelta: </br></br>";
+            imprimir(minevancic(minas), "matriz2")
+        }
+
+        function color(){
+            document.getElementById("matriz2").innerHTML = "Matriz resuelta: </br></br>";
+            imprimirColor(minas, "matriz2");
+        }
+        
+
+        // Funciones
+        function minevancic(array) {
+            // Cambiamos a fuerza bruta
+            let resuelta = [];
+            let c = true;
+            while (c) {
+                c = false;
+                for (let i = 0; i < array.length; i++) {
+                    resuelta[i] = [];
+                    for (let j = 0; j < array[i].length; j++) {
+                        // Arriba
+                        if (i > 0 && array[i][j] > array[i-1][j] + 1) {
+                            resuelta[i][j] = array[i-1][j] + 1;
+                            c = true;
+                        }
+                        // Abajo
+                        if (i < array.length - 1 && array[i][j] > array[i+1][j] + 1) {
+                            resuelta[i][j] = array[i+1][j] + 1;
+                            c = true;
+                        }
+                        // Derecha
+                        if (j < array[i].length - 1 && array[i][j] > array[i][j+1] + 1) {
+                            resuelta[i][j] = array[i][j+1] + 1;
+                            c = true;
+                        }
+                        // Izquierda
+                        if (j > 0 && array[i][j] > array[i][j-1] + 1) {
+                            resuelta[i][j] = array[i][j-1] + 1;
+                            c = true;
+                        }
+                        // Diagonal arriba derecha
+                        if (j < array[i].length - 1 && i > 0 && array[i][j] > array[i-1][j+1] + 1) {
+                            resuelta[i][j] = array[i-1][j+1] + 1;
+                            c = true;
+                        }
+                        // Diagonal arriba izquierda
+                        if (j > 0 && i > 0 && array[i][j] > array[i-1][j-1] + 1) {
+                            resuelta[i][j] = array[i-1][j-1] + 1;
+                            c = true;
+                        }
+                        // Diagonal abajo derecha
+                        if (j < array[i].length - 1 && i < array.length - 1 && array[i][j] > array[i+1][j+1] + 1) {
+                            resuelta[i][j] = array[i+1][j+1] + 1;
+                            c = true;
+                        }
+                        // Diagonal abajo izquierda
+                        if (j > 0 && i < array.length - 1 && array[i][j] > array[i+1][j-1] + 1) {
+                            resuelta[i][j] = array[i+1][j-1] + 1;
+                            c = true;
+                        }
+                    }
+                }
+            }
+            return resuelta;
+        }
+        
+
+        function imprimirColor(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    let button = undefined;
+                    switch (array[i][j]) {
+                        case 0:
+                            button = '<button type="button" class="btn btn-outline-danger" onclick="resolver(this)" value="'+array[i][j]+'">0</button>'
+                            break;
+                        case 1:
+                            button = '<button type="button" class="btn btn-danger" onclick="resolver(this)" value="'+array[i][j]+'">1</button>'
+                            break;
+                        case 2:
+                            button = '<button type="button" class="btn btn-warning" onclick="resolver(this)" value="'+array[i][j]+'">2</button>'
+                            break;
+                        case 3:
+                            button = '<button type="button" class="btn btn-info" onclick="resolver(this)" value="'+array[i][j]+'">3</button>'
+                            break;
+                        case 4:
+                            button = '<button type="button" class="btn btn-secondary" onclick="resolver(this)" value="'+array[i][j]+'">4</button>'
+                            break;
+                        case 5:
+                            button = '<button type="button" class="btn btn-dark" onclick="resolver(this)" value="'+array[i][j]+'">5</button>'
+                            break;
+                        default:
+                            button = '<button type="button" class="btn btn-success" onclick="resolver(this)" value="'+array[i][j]+'">' + array[i][j] + '</button>'
+                            break;
+                    }
+                    document.getElementById(id).innerHTML += button;
+                }
+                document.getElementById(id).innerHTML += "<br>";
+            }
+        }
+
+        function imprimir(array, id) {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    document.getElementById(id).innerHTML += '<button type="button" class="btn btn-outline-secondary">' + array[i][j] + '</button>';
+                }
+                document.getElementById(id).innerHTML += "<br>";
+            }
+        }
+    </script>
+</body>
+
+</html>
