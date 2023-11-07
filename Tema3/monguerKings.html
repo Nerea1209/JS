@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+    <title>MONGUER KING</title>
+</head>
+
+<body>
+    <!-- <p>
+        let array = ["perico","juanico","andres"]; <br />
+        Array.isArray(array); // true
+    </p> -->
+    <p>Reyes:</p>
+    <p id="reyes"></p>
+    <p>Monguers:</p>
+    <ul id="monguers"></ul>
+    <script>
+        const REYES =
+            ["Chindatore", ["Chindasvinto", "Rencesvinto", "Lautaro"], ["Lauro", "Sisebuto", ["Fracisbuto", "Vigafredo", ["Leovigildo"]]], "Amalarico II"];
+        var monguers = []
+        let monguersKnown = ["Chindasvinto", "Amalarico II"]
+        let padre = document.getElementById("reyes");
+        function findMonguer(array, par, padre) {
+            // ESCRIBE TU CÓDIGO AQUÍ
+            if (Array.isArray(array)) {
+                let ul = document.createElement("UL");
+                padre.appendChild(ul);
+                array.map(v => findMonguer(v, !par, ul));
+            } else {
+                if (par) {
+                    monguers.push(array);
+                }
+                let nodo = document.createElement("LI");
+                let texto = document.createTextNode(array);
+                nodo.appendChild(texto);
+                padre.appendChild(nodo);
+            }
+        }
+        console.log("REYES: " + REYES);
+        findMonguer(REYES, true, padre);
+        console.log("MONGUERS: " + monguers);
+
+        // Mostramos en html
+        monguers.map(v => {
+            let padre = document.getElementById("monguers");
+            let nodo = document.createElement("LI");
+            let texto = document.createTextNode(v);
+            nodo.appendChild(texto);
+            padre.appendChild(nodo);
+        })
+
+    </script>
+</body>
+
+</html>
