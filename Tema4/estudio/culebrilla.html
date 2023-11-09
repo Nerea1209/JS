@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <!DOCTYPE html>
+    <html>
+
+    <body>
+        <h2>kulevrilla Zostérica</h2>
+        <p id="sol"></p>
+        <script>
+            var arr = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+            ];
+            function generateRandomInt(min, max) {
+                return Math.floor((Math.random() * (max - min)) + min);
+            }
+            console.log(arr);
+
+            function cabeza(array) {
+                let coordenadas = [];
+                array.map((v, i) => v.map((k, j) => {
+                    if (k === "*") {
+                        coordenadas.push(i);
+                        coordenadas.push(j);
+                    }
+                }))
+                return coordenadas
+            }
+
+            function crecer(array, cabeza) {
+                console.log(cabeza)
+                let i = cabeza[0];
+                let j = cabeza[1];
+                let crece = false;
+                while (crece == false) {
+                    let pos = generateRandomInt(1, 5);
+                    console.log(pos)
+                    console.log(crece)
+                    // Arriba
+                    if (i > 0 && array[i - 1][j] != "*" && pos === 1) {
+                        if (i - 1 > 0 && array[i - 2][j] === "*" || j > 0 && array[i - 1][j - 1] === "*"
+                            || j < array[i - 1].length - 1 && array[i - 1][j + 1] === "*") {
+                            crece = false;
+                            return 0
+                        } else {
+                            array[i - 1][j] = "*";
+                            crece = true;
+                            crecer(array, [i - 1, j])
+                        }
+                    }
+                    // abajo
+                    if (i < array.length - 1 && array[i + 1][j] != "*" && pos === 2) {
+                        if (i + 1 < array.length - 1 && array[i + 2][j] === "*" || j > 0 && array[i + 1][j - 1] === "*"
+                            || j < array[i + 1].length - 1 && array[i + 1][j + 1] === "*") {
+                            crece = false;
+                            return 0
+                        } else {
+                            array[i + 1][j] = "*";
+                            crece = true;
+                            crecer(array, [i + 1, j])
+                        }
+                    }
+                    // Izquierda
+                    if (j > 0 && array[i][j - 1] != "*" && pos === 3) {
+                        if (j - 1 > 0 && array[i][j - 2] === "*" || i < array.length - 1 && array[i + 1][j - 1] === "*"
+                            || i > 0 && array[i - 1][j - 1] === "*") {
+                            crece = false;
+                            return 0
+                        } else {
+                            array[i][j - 1] = "*";
+                            crece = true;
+                            crecer(array, [i, j - 1])
+                        }
+                    }
+                    // Derecha
+                    if (j < array[i].length - 1 && array[i][j + 1] != "*" && pos === 4) {
+                        if (j + 1 < array[i].length - 1 && array[i][j + 2] === "*" || i < array.length - 1 && array[i + 1][j + 1] === "*"
+                            || i > 0 && array[i - 1][j + 1] === "*") {
+                            crece = false;
+                            return 0
+                        } else {
+                            array[i][j + 1] = "*";
+                            crece = true;
+                            crecer(array, [i, j + 1])
+                        }
+                    }
+                }
+
+            }
+
+            crecer(arr, cabeza(arr));
+
+            // Función para imprimir
+            function imprimir(array, id) {
+                for (let i = 0; i < array.length; i++) {
+                    for (let j = 0; j < array[i].length; j++) {
+                        if (array[i][j] === "*") {
+                            document.getElementById(id).innerHTML += array[i][j] + "&nbsp;&nbsp;&nbsp;";
+                        } else {
+                            document.getElementById(id).innerHTML += "_&nbsp;&nbsp;&nbsp;";
+                        }
+                        
+                    }
+                    document.getElementById(id).innerHTML += "<br>";
+                }
+            }
+
+            imprimir (arr, "sol")
+
+        </script>
+    </body>
+
+    </html>
