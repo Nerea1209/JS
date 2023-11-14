@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <script>
+        function login(usuario, password) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("resultado").innerHTML = this.responseText;
+                    console.log(this.responseText)
+                }
+            };
+            xmlhttp.open("GET", "http://localhost/js/login.php?usuario=" + usuario + "&password=" + password, true);
+            // La dirección anterior corresponde a la ubicación de la página php en el servidor localhost
+            // Esta dirección podrá diferir dependiendo de la necesidad del programador.
+            xmlhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+    Introduzca usuario y password:<br>
+    <form>
+        <input type="text" placeholder="Usuario" id="usuario" name="usuario"> <br>
+        <input type="text" placeholder="Password" id="password" name="password"> <br>
+        <button type="submit"
+            onclick="login(document.getElementById('usuario').value, document.getElementById('password').value)">Log
+            In</button>
+    </form>
+    <p><span id="resultado"></span></p>
+</body>
+
+</html>
