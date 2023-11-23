@@ -14,7 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      letrero: "saludo en diferentes idiomas",
+      letrero: "Esta aplicación saluda en varios idiomas",
     }
   }
   cambia({ saludo }) {
