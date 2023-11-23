@@ -27,7 +27,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Botoncico color="primary" value="marinico" cambia={() => this.cambia({c: "primary"})} />
+        <Botoncico color="primary" value="marinico" cambia={() => this.cambia({c: })} />
         <Botoncico color="secondary" value="grisico" cambia={() => this.cambia({c: "secondary"})}/>
         <Botoncico color="success" value="verdecico" cambia={() => this.cambia({c: "success"})}/>
         <Botoncico color="info" value="azulico" cambia={() => this.cambia({c: "info"})}/>
