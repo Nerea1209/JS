@@ -1,37 +1,40 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { Button, CardImg, Card, CardBody, CardTitle, CardText } from 'reactstrap';
+import Botonera from './componentes/BotoneraComponent ';
+import Campo from './componentes/CampoComponent';
+import { MINAS } from './shared/datos';
+import Selector from './componentes/SelectorMinas';
 
-const FlashCard = (props) => {
-  return (<>
-      <Card style={{ width: "18rem" }} >
-        <CardBody>
-          <CardTitle tag="h5">{props.titulo}</CardTitle>
-          <CardImg src={props.imagen} />
-          <CardText>{props.texto}</CardText>
-        </CardBody>
-      </Card>
-  </>)
-}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imagen: "/assets/images/yes.png",
+      matriz: MINAS,
+      posicion: [0,0],
+      minas: 10
     }
   }
-  cambiar(param) {
-    this.setState({ imagen: param });
+  jugar () {
+
+  }
+  aumentar() {
+
+  }
+  disminuir() {
+
+  }
+  onClick() {
+    // Mover arriba, abajo, derecha o izquierda controlando no salirnos de la matriz
   }
   render() {
     return (
       <div className="App">
-        <FlashCard
-          imagen={this.state.imagen}
-          titulo="Yes or Not"
-          texto=":)"
-        />
+          <div id='jugar' style={{display: "flex", flexFlow: "row wrap", alignItems: "center", justifyContent:"space-evenly", margin: "2rem", padding: "1rem"}}>
+            <Selector />
+            <Campo matriz={this.state.matriz} />
+            <Botonera />
+          </div>
       </div>
     );
   }
