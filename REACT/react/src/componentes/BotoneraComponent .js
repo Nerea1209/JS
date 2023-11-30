@@ -5,7 +5,7 @@ import { Button, Row, Col, Container } from 'reactstrap';
 function Botonera(props) {
   return (
     <div className="App">
-      <Container>
+      <Container style={props.style}>
         <Row xs="3" style={{ width: "8rem" }}>
           <Col></Col>
           <Col><Button style={{ fontSize: "1.3rem" }} outline onClick={props.onClick}>⇡</Button></Col>
