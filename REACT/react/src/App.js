@@ -29,7 +29,7 @@ class App extends React.Component {
   }
   jugar() {
     this.setState({ finalizado: false })
-    this.setState({ posicion: [0,0] })
+    this.setState({ posicion: [0, 0] })
     let m = JSON.parse(JSON.stringify(Array(10).fill(Array(10).fill(0))));
     for (let i = 0; i < this.state.minas; i++) {
       let fila = this.aleatorio(1, m.length - 1);
@@ -44,11 +44,56 @@ class App extends React.Component {
       else return l;
     }))
 
-    this.minevancic()
+    let c = true;
+    while (c) {
+      c = false;
+      for (let i = 0; i < m.length; i++) {
+        for (let j = 0; j < m[i].length; j++) {
+          // Arriba
+          if (i > 0 && m[i][j] > m[i - 1][j] + 1) {
+            m[i][j] = m[i - 1][j] + 1;
+            c = true;
+          }
+          // Abajo
+          if (i < m.length - 1 && m[i][j] > m[i + 1][j] + 1) {
+            m[i][j] = m[i + 1][j] + 1;
+            c = true;
+          }
+          // Derecha
+          if (j < m[i].length - 1 && m[i][j] > m[i][j + 1] + 1) {
+            m[i][j] = m[i][j + 1] + 1;
+            c = true;
+          }
+          // Izquierda
+          if (j > 0 && m[i][j] > m[i][j - 1] + 1) {
+            m[i][j] = m[i][j - 1] + 1;
+            c = true;
+          }
+          // Diagonal arriba derecha
+          if (j < m[i].length - 1 && i > 0 && m[i][j] > m[i - 1][j + 1] + 1) {
+            m[i][j] = m[i - 1][j + 1] + 1;
+            c = true;
+          }
+          // Diagonal arriba izquierda
+          if (j > 0 && i > 0 && m[i][j] > m[i - 1][j - 1] + 1) {
+            m[i][j] = m[i - 1][j - 1] + 1;
+            c = true;
+          }
+          // Diagonal abajo derecha
+          if (j < m[i].length - 1 && i < m.length - 1 && m[i][j] > m[i + 1][j + 1] + 1) {
+            m[i][j] = m[i + 1][j + 1] + 1;
+            c = true;
+          }
+          // Diagonal abajo izquierda
+          if (j > 0 && i < m.length - 1 && m[i][j] > m[i + 1][j - 1] + 1) {
+            m[i][j] = m[i + 1][j - 1] + 1;
+            c = true;
+          }
+        }
+      }
+    }
 
-    console.log(m)
     this.setState({ matrizMinas: m })
-    this.setState({ display: "block" })
     setTimeout(() => this.darColor(), 250);
     setTimeout(() => this.actualizar(), 250);
   }
@@ -113,7 +158,6 @@ class App extends React.Component {
         break;
       case 1:
         this.setState({ colorPosicion: "danger" });
-        this.setState({finalizado:true})
         break;
       case 2:
         this.setState({ colorPosicion: "warning" });
@@ -128,27 +172,49 @@ class App extends React.Component {
     this.setState({ textoPosicion: this.state.matrizMinas[coordenada[0]][coordenada[1]] });
   }
   actualizar() {
-    var m = JSON.parse(JSON.stringify(this.state.matriz));
-    m.map((v, i) => v.map((k, j) => {
-      if (i === this.state.posicion[0] && j === this.state.posicion[1]) {
-        let arr = JSON.parse(JSON.stringify(this.state.camino));
-        arr.push(<Col key={i + v}><button style={{ width: "100%", height: "auto" }} color={this.state.colorPosicion}>{this.state.textoPosicion}</button></Col>);
-        this.setState({camino: arr})
-        console.log(this.state.camino)
-        return <Col key={i + v}><button style={{ width: "100%", height: "auto" }} color={this.state.colorPosicion} outline>{this.state.textoPosicion}</button></Col>;;
-      } else {
-        return <Col key={i + v}><Button style={{ width: "100%", height: "auto" }}>{k}</Button></Col>
-      }
-    })).map((v, i) => v.map((k, j) => {
-      if (this.state.camino.find(u => u.key[0] == k.key[0]) != undefined) {
-        console.log(this.state.camino.find(u => u.key[0] == k.key[0]))
-        return this.state.camino.find(u => u.key[0] == k.key[0])
-      } else {
-        return k
-      }
-    }));
-    
-    this.setState({ matriz: m });
+    let ma = JSON.parse(JSON.stringify(this.state.matriz));
+    const { camino, posicion, colorPosicion, textoPosicion } = this.state;
+
+    console.log(camino);
+    console.log(
+      ma.map((v, i) =>
+        v.map((k, j) => {
+          let elemento = (
+            <Col key={i + "" + j} style={{ padding: ".1rem" }}>
+              <Button style={{ width: "100%", height: "auto" }}>{k}</Button>
+            </Col>
+          );
+
+          const caminoElemento = camino.find(u => u.key === i + "" + j);
+          if (caminoElemento) {
+            elemento = caminoElemento;
+          }
+
+          if (i === posicion[0] && j === posicion[1]) {
+            let arr = [...camino];
+            arr.push(
+              <Col key={i + "" + j} style={{ padding: ".1rem" }}>
+                <Button style={{ width: "100%", height: "auto" }} color={colorPosicion}>
+                  {textoPosicion}
+                </Button>
+              </Col>
+            );
+            this.setState({ camino: arr });
+            elemento = (
+              <Col key={i + "" + j} style={{ padding: ".1rem" }}>
+                <Button style={{ width: "100%", height: "auto" }} color={colorPosicion} outline>
+                  {textoPosicion}
+                </Button>
+              </Col>
+            );
+          }
+
+          return elemento;
+        })
+      )
+    );
+
+    this.setState({ matriz: ma });
   }
 
   aumentar() {
@@ -166,15 +232,14 @@ class App extends React.Component {
     // Mover arriba, abajo, derecha o izquierda controlando no salirnos de la matriz
     if (!this.state.finalizado) {
       let pos = JSON.parse(JSON.stringify(this.state.posicion))
-      console.log(pos)
 
       // ARRIBA
       if (movimiento == "Arriba") {
         if (pos[0] > 0) {
           pos = [pos[0] - 1, pos[1]];
           this.setState({ posicion: pos })
-          this.darColor()
-          this.actualizar()
+          setTimeout(() => this.darColor(), 10);
+          setTimeout(() => this.actualizar(), 10);
         } else {
           this.setState({ finalizado: true })
         }
@@ -184,8 +249,8 @@ class App extends React.Component {
         if (pos[0] < this.state.matriz[0].length - 1) {
           pos = [pos[0] + 1, pos[1]];
           this.setState({ posicion: pos })
-          this.darColor()
-          this.actualizar()
+          setTimeout(() => this.darColor(), 10);
+          setTimeout(() => this.actualizar(), 10);
         } else {
           this.setState({ finalizado: true })
         }
@@ -195,8 +260,8 @@ class App extends React.Component {
         if (pos[1] > 0) {
           pos = [pos[0], pos[1] - 1];
           this.setState({ posicion: pos })
-          this.darColor()
-          this.actualizar()
+          setTimeout(() => this.darColor(), 10);
+          setTimeout(() => this.actualizar(), 10);
         } else {
           this.setState({ finalizado: true })
         }
@@ -206,8 +271,8 @@ class App extends React.Component {
         if (pos[1] < this.state.matriz.length - 1) {
           pos = [pos[0], pos[1] + 1];
           this.setState({ posicion: pos })
-          this.darColor()
-          this.actualizar()
+          setTimeout(() => this.darColor(), 10);
+          setTimeout(() => this.actualizar(), 10);
         } else {
           this.setState({ finalizado: true })
         }
@@ -225,7 +290,7 @@ class App extends React.Component {
             onClickMenos={() => this.disminuir()}
             onClickJugar={() => this.jugar()}
           />
-          <Campo
+          {!this.state.finalizado && <Campo
             style={{ display: this.state.display }}
             matriz={this.state.matriz}
             posicion={this.state.posicion}
@@ -234,12 +299,12 @@ class App extends React.Component {
             matrizMinas={this.state.matrizMinas}
             actualizar={() => this.actualizar()}
             color={() => this.darColor()}
-            camino = {this.state.camino}
-          />
-          <Botonera
+            camino={this.state.camino}
+          />}
+          {!this.state.finalizado && <Botonera
             style={{ display: this.state.display }}
             onClick={(x) => this.onClick(x)}
-          />
+          />}
         </div>
       </div>
     );

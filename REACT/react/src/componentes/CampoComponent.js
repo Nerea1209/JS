@@ -6,16 +6,21 @@ function Campo(props) {
 
   return (
     <div>
-      <Container style={props.style}>
-        {props.matriz.map((v, i) => <Row key={i}>{v.map((k, j) => {
-          if (i === props.posicion[0] && j === props.posicion[1]) {
-            return <Col key={i + j} style={{ padding: ".1rem" }}><Button style={{ width: "100%", height: "auto" }} color={props.colorPosicion} outline>{props.textoPosicion}</Button></Col>
-          } else {
-            return <Col key={i + j} style={{ padding: ".1rem" }}><Button style={{ width: "100%", height: "auto" }}>{k}</Button></Col>
+      <Container>
+        {props.matriz.map((v, i) => <Row key={i}> { v.map((k, j) => {
+          let elemento = <Col key={i +""+ j} style={{ padding: ".1rem" }}><Button style={{ width: "100%", height: "auto" }}>{k}</Button></Col>;
+
+          const caminoElemento = props.camino.find(u => u.key === (i + "" + j));
+          if (caminoElemento) {
+            elemento = caminoElemento;
           }
-        })}</Row>)}
 
+          if (i === props.posicion[0] && j === props.posicion[1]) {
+            elemento =  <Col key={i +""+ j} style={{ padding: ".1rem" }}><Button style={{ width: "100%", height: "auto" }} color={props.colorPosicion} outline>{props.textoPosicion}</Button></Col>
+          }
 
+          return elemento;
+        }) }</Row>)}
       </Container>
     </div>
   );
