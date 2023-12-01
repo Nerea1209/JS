@@ -9,7 +9,7 @@ function Selector(props) {
       <Button style={{width:"2rem", height:"2rem", lineHeight:"1rem"}} color='success' outline onClick={() => props.onClickMenos()}>-</Button>
       <span>{props.minas}</span>
       <Button style={{width:"2rem", height:"2rem", lineHeight:"1rem", padding:0}} color='danger' outline onClick={() => props.onClickMas()}>+</Button>
-      <Button style={{flex:"0 30%"}} color='warning'>Jugar</Button>
+      <Button style={{flex:"0 30%"}} color='warning' onClick={() => props.onClickJugar()}>Jugar</Button>
     </div>
   );
 }
