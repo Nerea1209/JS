@@ -17,7 +17,6 @@ class App extends React.Component {
       textoPosicion: "0",
       minas: 10,
       matrizMinas: Array(10).fill(Array(10).fill(0)),
-      display: "block",
       camino: [],
       finalizado: true,
     }
@@ -30,6 +29,7 @@ class App extends React.Component {
   jugar() {
     this.setState({ finalizado: false })
     this.setState({ posicion: [0, 0] })
+    this.setState({ camino: [] })
     let m = JSON.parse(JSON.stringify(Array(10).fill(Array(10).fill(0))));
     for (let i = 0; i < this.state.minas; i++) {
       let fila = this.aleatorio(1, m.length - 1);
@@ -185,11 +185,6 @@ class App extends React.Component {
             </Col>
           );
 
-          const caminoElemento = camino.find(u => u.key === i + "" + j);
-          if (caminoElemento) {
-            elemento = caminoElemento;
-          }
-
           if (i === posicion[0] && j === posicion[1]) {
             let arr = [...camino];
             arr.push(
@@ -207,6 +202,11 @@ class App extends React.Component {
                 </Button>
               </Col>
             );
+          }
+
+          const caminoElemento = camino.find(u => u.key === i + "" + j);
+          if (caminoElemento) {
+            elemento = caminoElemento;
           }
 
           return elemento;
@@ -260,7 +260,7 @@ class App extends React.Component {
         if (pos[1] > 0) {
           pos = [pos[0], pos[1] - 1];
           this.setState({ posicion: pos })
-          setTimeout(() => this.darColor(), 10);
+          setTimeout(() => this.darColor(), 1000);
           setTimeout(() => this.actualizar(), 10);
         } else {
           this.setState({ finalizado: true })
