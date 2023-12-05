@@ -3,6 +3,7 @@ import React from 'react';
 import Botonera from './componentes/BotoneraComponent ';
 import Campo from './componentes/CampoComponent';
 import Selector from './componentes/SelectorMinas';
+import Ventana from './componentes/ModalComponent';
 import { Button, Col } from 'reactstrap';
 
 
@@ -18,6 +19,8 @@ class App extends React.Component {
       matrizMinas: Array(10).fill(Array(10).fill("_")),
       camino: [],
       finalizado: true,
+      ganado: false,
+      empezado: false,
     }
   }
   // Función que devuleve un numero aleatorio entre el rango dado
@@ -27,6 +30,7 @@ class App extends React.Component {
   }
   jugar() {
     this.setState({ finalizado: false })
+    this.setState({ empezado: true })
     this.setState({ posicion: [0, 0] })
     this.setState({ camino: [] })
     this.setState({ matriz: Array(10).fill(Array(10).fill("_")) });
@@ -192,6 +196,7 @@ class App extends React.Component {
           setTimeout(() => this.actualizar(), 250);
         } else {
           this.setState({ finalizado: true })
+          this.setState({ ganado: false })
         }
       }
 
@@ -203,6 +208,7 @@ class App extends React.Component {
           setTimeout(() => this.actualizar(), 250);
         } else {
           this.setState({ finalizado: true })
+          this.setState({ ganado: false })
         }
       }
 
@@ -214,6 +220,7 @@ class App extends React.Component {
           setTimeout(() => this.actualizar(), 250);
         } else {
           this.setState({ finalizado: true })
+          this.setState({ ganado: false })
         }
       }
 
@@ -225,10 +232,18 @@ class App extends React.Component {
           setTimeout(() => this.actualizar(), 250);
         } else {
           this.setState({ finalizado: true })
+          this.setState({ ganado: false })
         }
       }
-    }
 
+      if (this.state.matrizMinas[pos[0]][pos[1]] === 0) {
+        this.setState({ ganado: false })
+        this.setState({ finalizado: true })
+      }
+    }
+  }
+  onclickNo () {
+    this.setState({empezado: false})
   }
   render() {
     return (
@@ -240,7 +255,7 @@ class App extends React.Component {
             onClickMenos={() => this.disminuir()}
             onClickJugar={() => this.jugar()}
           />
-          {!this.state.finalizado && <Campo
+          {this.state.empezado && <Campo
             style={{ display: this.state.display }}
             matriz={this.state.matriz}
             posicion={this.state.posicion}
@@ -256,10 +271,16 @@ class App extends React.Component {
             onClick={(x) => this.onClick(x)}
           />}
 
-          {!this.state.finalizado && <Botonera
-            style={{ display: this.state.display }}
-            onClick={(x) => this.onClick(x)}
-          />}
+          {this.state.finalizado && this.state.ganado && this.state.empezado &&
+            <Ventana 
+            title="¡HAS GANADO!"
+            onClickSi = {() => this.jugar()}
+            onClickNo = {() => this.onclickNo()} />}
+
+          {this.state.finalizado && !this.state.ganado && this.state.empezado &&
+            <Ventana title="¡HAS PERDIDO!" 
+            onClickSi = {() => this.jugar()} 
+            onClickNo = {() => this.onclickNo()} />}
 
         </div>
       </div>
