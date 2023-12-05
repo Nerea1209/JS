@@ -20,7 +20,7 @@ function Ventana(props) {
             >
                 <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
                 <ModalBody>
-                    ¿Quieres volver a jugar?
+                    ¿Quieres volver a jugar con los mismos valores?
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={() => props.onClickSi()}>

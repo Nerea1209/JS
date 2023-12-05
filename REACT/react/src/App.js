@@ -2,21 +2,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Botonera from './componentes/BotoneraComponent ';
 import Campo from './componentes/CampoComponent';
-import Selector from './componentes/SelectorMinas';
+import SelectorMinas from './componentes/SelectorMinas';
 import Ventana from './componentes/ModalComponent';
 import { Button, Col } from 'reactstrap';
+import Selector from './componentes/SelectorFilasColumnas';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      matriz: Array(10).fill(Array(10).fill("_")),
+      filas: 5,
+      columnas: 5,
+      matriz: Array(5).fill(Array(5).fill("_")),
       posicion: [0, 0],
       colorPosicion: "secondary",
       textoPosicion: "0",
       minas: 10,
-      matrizMinas: Array(10).fill(Array(10).fill("_")),
+      matrizMinas: Array(5).fill(Array(5).fill("_")),
       camino: [],
       finalizado: true,
       ganado: false,
@@ -33,13 +36,11 @@ class App extends React.Component {
     this.setState({ empezado: true })
     this.setState({ posicion: [0, 0] })
     this.setState({ camino: [] })
-    this.setState({ matriz: Array(10).fill(Array(10).fill("_")) });
-    let m = JSON.parse(JSON.stringify(Array(10).fill(Array(10).fill("_"))));
+    this.setState({ matriz: Array(this.state.filas).fill(Array(this.state.columnas).fill("_")) });
+    let m = JSON.parse(JSON.stringify(Array(this.state.filas).fill(Array(this.state.columnas).fill("_"))));
     for (let i = 0; i < this.state.minas; i++) {
       let fila = this.aleatorio(1, m.length - 1);
-
       let columna = this.aleatorio(1, m.length - 1);
-
       m[fila][columna] = 1;
     }
 
@@ -47,6 +48,7 @@ class App extends React.Component {
       if (l != 1) return Infinity;
       else return 0;
     }))
+    console.log(m)
 
     this.minevancic(m);
     setTimeout(() => this.setState({ matrizMinas: m }), 100)
@@ -127,11 +129,10 @@ class App extends React.Component {
     this.setState({ textoPosicion: this.state.matrizMinas[coordenada[0]][coordenada[1]] });
   }
   actualizar() {
-    let ma = JSON.parse(JSON.stringify(this.state.matriz));
+    let ma = JSON.parse(JSON.stringify(Array(this.state.filas).fill(Array(this.state.columnas).fill("_"))));
     const { camino, posicion, colorPosicion, textoPosicion } = this.state;
 
-    console.log(camino);
-    console.log(
+    
       ma.map((v, i) =>
         v.map((k, j) => {
           let elemento = (
@@ -165,24 +166,39 @@ class App extends React.Component {
           }
           return elemento;
         })
-      )
+      
     );
 
     this.setState({ matriz: ma });
   }
 
-  aumentar() {
-    if (this.state.minas < 100) {
+  aumentarMinas() {
+    if (this.state.minas < (this.state.filas * this.state.columnas - 2)) {
       this.setState({ minas: (this.state.minas + 1) })
     }
   }
-  disminuir() {
+  disminuirMinas() {
     if (this.state.minas > 1) {
       this.setState({ minas: (this.state.minas - 1) })
     }
   }
+  aumentar(valor) {
+    if (valor == "filas" && this.state.filas < 10) {
+      this.setState({ filas: (this.state.filas + 1) })
+    }
+    if (valor == "columnas" && this.state.columnas < 10) {
+      this.setState({ columnas: (this.state.columnas + 1) })
+    }
+  }
+  disminuir(valor) {
+    if (valor == "filas" && this.state.filas > 1) {
+      this.setState({ filas: (this.state.filas - 1) })
+    }
+    if (valor == "columnas" && this.state.columnas > 1) {
+      this.setState({ columnas: (this.state.columnas - 1) })
+    }
+  }
   onClick(movimiento) {
-    console.log(movimiento)
     // Mover arriba, abajo, derecha o izquierda controlando no salirnos de la matriz
     if (!this.state.finalizado) {
       let pos = JSON.parse(JSON.stringify(this.state.posicion))
@@ -201,7 +217,7 @@ class App extends React.Component {
       }
 
       if (movimiento == "Abajo") {
-        if (pos[0] < this.state.matriz[0].length - 1) {
+        if (pos[0] < this.state.filas - 1) {
           pos = [pos[0] + 1, pos[1]];
           this.setState({ posicion: pos })
           setTimeout(() => this.darColor(), 100);
@@ -225,7 +241,7 @@ class App extends React.Component {
       }
 
       if (movimiento == "Derecha") {
-        if (pos[1] < this.state.matriz.length - 1) {
+        if (pos[1] < this.state.columnas - 1) {
           pos = [pos[0], pos[1] + 1];
           this.setState({ posicion: pos })
           setTimeout(() => this.darColor(), 100);
@@ -240,6 +256,11 @@ class App extends React.Component {
         this.setState({ ganado: false })
         this.setState({ finalizado: true })
       }
+
+      if (pos[0] == this.state.filas - 1 && pos[1] == this.state.columnas-1) {
+        this.setState({ ganado: false })
+        this.setState({ finalizado: true })
+      }
     }
   }
   onclickNo () {
@@ -249,12 +270,19 @@ class App extends React.Component {
     return (
       <div className="App">
         <div id='jugar' style={{ display: "flex", flexFlow: "row wrap", alignItems: "center", justifyContent: "space-evenly", margin: "2rem", padding: "1rem" }}>
-          <Selector
+        {this.state.finalizado && <Selector
+            filas={this.state.filas}
+            columnas={this.state.columnas}
+            onClickMas={(x) => this.aumentar(x)}
+            onClickMenos={(x) => this.disminuir(x)}
+          />}
+          {this.state.finalizado &&
+          <SelectorMinas
             minas={this.state.minas}
-            onClickMas={() => this.aumentar()}
-            onClickMenos={() => this.disminuir()}
+            onClickMas={() => this.aumentarMinas()}
+            onClickMenos={() => this.disminuirMinas()}
             onClickJugar={() => this.jugar()}
-          />
+          /> }
           {this.state.empezado && <Campo
             style={{ display: this.state.display }}
             matriz={this.state.matriz}

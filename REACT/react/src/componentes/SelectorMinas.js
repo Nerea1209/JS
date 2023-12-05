@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Button, Row, Col, Container } from 'reactstrap';
 
-function Selector(props) {
+function SelectorMinas(props) {
   return (
     <div style={{flex: "100%", display:"Flex", alignItems:"center", marginBottom:"4rem", justifyContent:"space-around"}}>
       <span style={{flex: "0 40%", fontSize:"2vw"}}>¿Cuántas minas va a tener el tablero?</span> 
@@ -15,4 +15,4 @@ function Selector(props) {
 }
 
 
-export default Selector;
+export default SelectorMinas;
