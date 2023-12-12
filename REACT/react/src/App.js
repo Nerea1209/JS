@@ -142,7 +142,7 @@ class App extends React.Component {
           );
 
           const caminoElemento = camino.find(u => u.key === i + "" + j);
-          if (caminoElemento) {
+          if (caminoElemento && i != posicion[0] && j != posicion[1]) {
             elemento = caminoElemento;
           }
 
@@ -208,8 +208,8 @@ class App extends React.Component {
         if (pos[0] > 0) {
           pos = [pos[0] - 1, pos[1]];
           this.setState({ posicion: pos })
-          setTimeout(() => this.darColor(), 100);
-          setTimeout(() => this.actualizar(), 250);
+          this.darColor();
+          this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -220,8 +220,8 @@ class App extends React.Component {
         if (pos[0] < this.state.filas - 1) {
           pos = [pos[0] + 1, pos[1]];
           this.setState({ posicion: pos })
-          setTimeout(() => this.darColor(), 100);
-          setTimeout(() => this.actualizar(), 250);
+          this.darColor();
+          this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -232,8 +232,8 @@ class App extends React.Component {
         if (pos[1] > 0) {
           pos = [pos[0], pos[1] - 1];
           this.setState({ posicion: pos })
-          setTimeout(() => this.darColor(), 100);
-          setTimeout(() => this.actualizar(), 250);
+          this.darColor();
+          this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -244,8 +244,10 @@ class App extends React.Component {
         if (pos[1] < this.state.columnas - 1) {
           pos = [pos[0], pos[1] + 1];
           this.setState({ posicion: pos })
-          setTimeout(() => this.darColor(), 100);
-          setTimeout(() => this.actualizar(), 250);
+          // setTimeout(() => this.darColor(), 100);
+          // setTimeout(() => this.actualizar(), 250);
+          this.darColor();
+          this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
