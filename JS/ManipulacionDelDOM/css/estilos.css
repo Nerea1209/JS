@@ -45,8 +45,11 @@ div.board>div.done {
 
 
 .tasks {
-    min-height: 300px;
+    height: 300px;
+    overflow-y: scroll;
 }
+
+
 
 .task {
     border: 0;
