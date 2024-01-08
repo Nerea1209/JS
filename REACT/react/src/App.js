@@ -208,8 +208,10 @@ class App extends React.Component {
         if (pos[0] > 0) {
           pos = [pos[0] - 1, pos[1]];
           this.setState({ posicion: pos })
-          this.darColor();
-          this.actualizar();
+          setTimeout(() => this.darColor(), 100);
+          setTimeout(() => this.actualizar(), 250);
+          // this.darColor();
+          // this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -220,8 +222,10 @@ class App extends React.Component {
         if (pos[0] < this.state.filas - 1) {
           pos = [pos[0] + 1, pos[1]];
           this.setState({ posicion: pos })
-          this.darColor();
-          this.actualizar();
+          setTimeout(() => this.darColor(), 100);
+          setTimeout(() => this.actualizar(), 250);
+          // this.darColor();
+          // this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -232,8 +236,10 @@ class App extends React.Component {
         if (pos[1] > 0) {
           pos = [pos[0], pos[1] - 1];
           this.setState({ posicion: pos })
-          this.darColor();
-          this.actualizar();
+          setTimeout(() => this.darColor(), 100);
+          setTimeout(() => this.actualizar(), 250);
+          // this.darColor();
+          // this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -244,10 +250,10 @@ class App extends React.Component {
         if (pos[1] < this.state.columnas - 1) {
           pos = [pos[0], pos[1] + 1];
           this.setState({ posicion: pos })
-          // setTimeout(() => this.darColor(), 100);
-          // setTimeout(() => this.actualizar(), 250);
-          this.darColor();
-          this.actualizar();
+          setTimeout(() => this.darColor(), 100);
+          setTimeout(() => this.actualizar(), 250);
+          // this.darColor();
+          // this.actualizar();
         } else {
           this.setState({ finalizado: true })
           this.setState({ ganado: false })
@@ -260,7 +266,7 @@ class App extends React.Component {
       }
 
       if (pos[0] == this.state.filas - 1 && pos[1] == this.state.columnas-1) {
-        this.setState({ ganado: false })
+        this.setState({ ganado: true })
         this.setState({ finalizado: true })
       }
     }
@@ -271,7 +277,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div id='jugar' style={{ display: "flex", flexFlow: "row wrap", alignItems: "center", justifyContent: "space-evenly", margin: "2rem", padding: "1rem" }}>
+        {/* display: "flex", flexFlow: "row wrap", justifyContent: "space-evenly" */}
+        <div id='jugar' style={{ margin: "2rem", padding: "1rem" }}>
+          <h1>Minevancic</h1>
         {this.state.finalizado && <Selector
             filas={this.state.filas}
             columnas={this.state.columnas}
@@ -286,7 +294,6 @@ class App extends React.Component {
             onClickJugar={() => this.jugar()}
           /> }
           {this.state.empezado && <Campo
-            style={{ display: this.state.display }}
             matriz={this.state.matriz}
             posicion={this.state.posicion}
             colorPosicion={this.state.colorPosicion}
@@ -297,18 +304,20 @@ class App extends React.Component {
             camino={this.state.camino}
           />}
           {!this.state.finalizado && <Botonera
-            style={{ display: this.state.display }}
             onClick={(x) => this.onClick(x)}
           />}
 
           {this.state.finalizado && this.state.ganado && this.state.empezado &&
             <Ventana 
+            toggle = {() => this.toggleModal()}
             title="¡HAS GANADO!"
             onClickSi = {() => this.jugar()}
             onClickNo = {() => this.onclickNo()} />}
 
           {this.state.finalizado && !this.state.ganado && this.state.empezado &&
-            <Ventana title="¡HAS PERDIDO!" 
+            <Ventana 
+            toggle = {() => this.toggleModal()}
+            title="¡HAS PERDIDO!" 
             onClickSi = {() => this.jugar()} 
             onClickNo = {() => this.onclickNo()} />}
 

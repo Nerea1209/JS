@@ -6,7 +6,7 @@ function Campo(props) {
 
   return (
     <div>
-      <Container>
+      <Container style={{marginTop:'1rem'}}>
         {props.matriz.map((v, i) => <Row key={i}> { v.map((k, j) => {
           let elemento = <Col key={i +""+ j} style={{ padding: ".1rem" }}><Button style={{ width: "100%", height: "auto" }}>{k}</Button></Col>;
 

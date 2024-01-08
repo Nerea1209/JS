@@ -6,19 +6,16 @@ function Ventana(props) {
     const { className } = props;
 
     const [modal, setModal] = useState(true);
-
-    const toggle = () => setModal(!modal);
     return (
         <div>
             <Modal
                 isOpen={modal}
                 modalTransition={{ timeout: 300 }}
                 backdropTransition={{ timeout: 300 }}
-                toggle={toggle}
                 centered={true}
                 className={className}
             >
-                <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
+                <ModalHeader>{props.title}</ModalHeader>
                 <ModalBody>
                     ¿Quieres volver a jugar con los mismos valores?
                 </ModalBody>
