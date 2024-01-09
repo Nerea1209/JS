@@ -4,19 +4,6 @@ import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Confetti from 'react-dom-confetti';
 
-const config = {
-  angle: 90,
-  spread: 360,
-  startVelocity: 40,
-  elementCount: "181",
-  dragFriction: 0.12,
-  duration: 3000,
-  stagger: 3,
-  width: "12px",
-  height: "12px",
-  perspective: "500px",
-  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-};
 
 const MapaBotones = (props) => {
   let lista = props.lista.map((v, i) => v.map((k, j) => {
@@ -43,6 +30,20 @@ class App extends Component {
       finalizado: false,
       turno: true,
       h1: "Turno: Azules",
+      config : {
+        angle: 90,
+        spread: 360,
+        startVelocity: 40,
+        elementCount: "181",
+        dragFriction: 0.12,
+        duration: 3000,
+        stagger: 3,
+        width: "12px",
+        height: "12px",
+        perspective: "500px",
+        position: 'absolute',
+        colors: ["blue"]
+      }
     }
   }
   cambiarTurno(i, j) {
@@ -97,19 +98,47 @@ class App extends Component {
         raya = []
 
       }
-
     }
+
     console.log(raya)
 
     if (cont >= 4 || raya.length >= 4) {
       console.log("ganan")
-      this.setState({ finalizado: true })
       if (this.state.listaBotones[posicion[0]][posicion[1]] === "primary") {
         this.setState({ h1: "Turno: Ganan los azules" })
+        this.setState({config: {
+          angle: 90,
+          spread: 360,
+          startVelocity: 40,
+          elementCount: "181",
+          dragFriction: 0.12,
+          duration: 3000,
+          stagger: 3,
+          width: "12px",
+          height: "12px",
+          perspective: "500px",
+          position: 'absolute',
+          colors: ["blue"]
+        }})
       }
       if (this.state.listaBotones[posicion[0]][posicion[1]] === "danger") {
         this.setState({ h1: "Turno: Ganan los rojos" })
+        this.setState({config: {
+          angle: 90,
+          spread: 360,
+          startVelocity: 40,
+          elementCount: "181",
+          dragFriction: 0.12,
+          duration: 3000,
+          stagger: 3,
+          width: "12px",
+          height: "12px",
+          perspective: "500px",
+          position: 'absolute',
+          colors: ["red"]
+        }})
       }
+      this.setState({ finalizado: true })
     }
   }
   click(i, j) {
@@ -135,7 +164,7 @@ class App extends Component {
         <div id='mapa'>
           <MapaBotones lista={this.state.listaBotones} click={(x, y) => this.click(x, y)} />
         </div>
-        <Confetti active={ this.state.finalizado } config={ config }/>
+        <Confetti className='confetti' active={ this.state.finalizado } config={ this.state.config } />
         {this.state.finalizado && <Button color="warning" onClick={() => this.volverAJugar()}>Volver a jugar</Button>}
       </div>
     );

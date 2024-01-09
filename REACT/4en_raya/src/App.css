@@ -2,6 +2,7 @@
   text-align: center;
   margin: 0 auto;
   margin-top: 2rem;
+  overflow: hidden;
 }
 
 .App > div#mapa {
@@ -21,4 +22,10 @@
 
 .App > button {
   margin: 1rem;
+}
+
+div.confetti {
+  left: 17rem;
+  bottom: 15rem;
+  z-index: 1;
 }
