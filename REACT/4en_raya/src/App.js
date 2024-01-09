@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
+import './App.css';
 import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Confetti from 'react-dom-confetti';
+
+const config = {
+  angle: 90,
+  spread: 360,
+  startVelocity: 40,
+  elementCount: "181",
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "12px",
+  height: "12px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
 
 const MapaBotones = (props) => {
   let lista = props.lista.map((v, i) => v.map((k, j) => {
@@ -73,15 +89,15 @@ class App extends Component {
     let raya = [];
     for (let j = 0; j < this.state.listaBotones[0].length; j++) {
       if (this.state.listaBotones[posicion[0]][posicion[1]] === this.state.listaBotones[posicion[0]][j]) {
-        raya.push(posicion[0]+","+j);
+        raya.push(posicion[0] + "," + j);
         if (raya.length >= 4) {
           break;
         }
       } else {
-          raya = []
-        
+        raya = []
+
       }
-      
+
     }
     console.log(raya)
 
@@ -102,22 +118,25 @@ class App extends Component {
   }
 
   volverAJugar() {
-    this.setState({finalizado: false})
-    this.setState({listaBotones: Array(9).fill(Array(9).fill(null))})
-    this.setState({posicionClick: [0, 0]})
-    this.setState({posicionFicha: [0, 0]})
-    this.setState({turno: true})
-    this.setState({h1: "Turno: Azules"})
+    this.setState({ finalizado: false })
+    this.setState({ listaBotones: Array(9).fill(Array(9).fill(null)) })
+    this.setState({ posicionClick: [0, 0] })
+    this.setState({ posicionFicha: [0, 0] })
+    this.setState({ turno: true })
+    this.setState({ h1: "Turno: Azules" })
   }
   // componentWillMount() {
   //   // Utilízalo si necesitas hacer algo antes de renderizar
   // }
   render() {
     return (
-      <div className="App" style={{ width: "250px" }}>
+      <div className="App">
         <h1>{this.state.h1}</h1>
-        <MapaBotones lista={this.state.listaBotones} click={(x, y) => this.click(x, y)} />
-        {this.state.finalizado && <Button color="secondary" onClick={() => this.volverAJugar()}>Volver a jugar</Button>}
+        <div id='mapa'>
+          <MapaBotones lista={this.state.listaBotones} click={(x, y) => this.click(x, y)} />
+        </div>
+        <Confetti active={ this.state.finalizado } config={ config }/>
+        {this.state.finalizado && <Button color="warning" onClick={() => this.volverAJugar()}>Volver a jugar</Button>}
       </div>
     );
   }

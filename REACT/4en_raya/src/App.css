@@ -1,38 +1,24 @@
 .App {
   text-align: center;
+  margin: 0 auto;
+  margin-top: 2rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App > div#mapa {
+  width: 500px;
+  display: inline-block;
+  background-color: rgb(71, 71, 79);
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App > div#mapa > button {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 4rem;
+  margin: .4rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App > button {
+  margin: 1rem;
 }
