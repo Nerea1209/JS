@@ -20,6 +20,11 @@ const ModalDiccionario = (props) => {
     }
   }
 
+  const add = () => {
+    setSeleccionado("Seleccione un medicamento");
+    props.add(seleccionado)
+  }
+
   return (
     <div>
       <Modal
@@ -54,7 +59,7 @@ const ModalDiccionario = (props) => {
         </ModalBody>
         <ModalFooter>
           {seleccionado}
-          <Button color="primary" onClick={() => props.add(seleccionado)}>
+          <Button color="primary" onClick={() => add()}>
             {props.aceptar}
           </Button>{' '}
           <Button color="secondary" onClick={props.toggle}>
@@ -93,17 +98,34 @@ class Filter extends React.Component {
         if (aux === "")
           aux += datos;
         else
-          aux += "," + datos
+          aux += ",\n" + datos
         this.setState({ incluidos: aux, options: opciones.filter(v => v !== datos) });
       } else {
         let aux = JSON.parse(JSON.stringify(this.state.excluidos));
         if (aux === "")
           aux += datos;
         else
-          aux += ", " + datos
+          aux += ",\n" + datos
         this.setState({ excluidos: aux, options: opciones.filter(v => v !== datos) });
       }
       this.toggleModal();
+    }
+  }
+
+  clear(boton) {
+    let opciones = JSON.parse(JSON.stringify(this.state.options));
+    if (boton === "Incluir X Medicamentos") {
+      let clear = JSON.parse(JSON.stringify(this.state.incluidos));
+      if (clear != "") {
+        let aux = opciones.concat(clear.split(",\n")).sort();
+        this.setState({ incluidos: "", options: aux })
+      }
+    } else {
+      let clear = JSON.parse(JSON.stringify(this.state.excluidos));
+      if (clear != "") {
+        let aux = opciones.concat(clear.split(",\n")).sort;
+        this.setState({ excluidos: "", options: aux })
+      }
     }
   }
 
@@ -132,7 +154,7 @@ class Filter extends React.Component {
                       id='incluidos'
                       defaultValue={this.state.incluidos} />
                     <Button color='info' onClick={() => this.toggleModal("Incluir X Medicamentos")}>Add</Button>{" "}
-                    <Button color='info' onClick={() => this.toggleModal("Incluir X Medicamentos")}>Clear</Button>
+                    <Button color='info' onClick={() => this.clear("Incluir X Medicamentos")}>Clear</Button>
                   </Alert>
                 </Col>
                 <Col>
@@ -144,7 +166,7 @@ class Filter extends React.Component {
                       id='excluidos'
                       defaultValue={this.state.excluidos} />
                     <Button color='danger' onClick={() => this.toggleModal("Excluir X Medicamentos")} >Add</Button>{" "}
-                    <Button color='danger' onClick={() => this.toggleModal("Excluir X Medicamentos")} >Clear</Button>
+                    <Button color='danger' onClick={() => this.clear("Excluir X Medicamentos")} >Clear</Button>
                   </Alert>
                 </Col>
               </Row>
