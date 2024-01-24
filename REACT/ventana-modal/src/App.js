@@ -7,13 +7,12 @@ import {
 
 const ModalDiccionario = (props) => {
   const { className } = props;
-  const [filtro, setFiltro] = useState("");
   const [seleccionado, setSeleccionado] = useState("Seleccione un medicamento");
 
   const handleChange = (event) => {
     const target = event.target;
     if (target.name === "filtro") {
-      setFiltro(target.value);
+      props.setFiltro(target.value);
     }
     if (target.name === "selectMulti") {
       setSeleccionado(target.value);
@@ -38,10 +37,12 @@ const ModalDiccionario = (props) => {
           <FormGroup row>
             <Label sm={2} > Filtrar: </Label>
             <Col sm={10}>
-              <Input onChange={handleChange}
+              <Input
+                onChange={handleChange}
                 id='filtro'
                 name='filtro'
-                type='text' />
+                type='text'
+                value={props.buscador} />
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -81,12 +82,17 @@ class Filter extends React.Component {
       titulo: "Incluir X Medicamentos",
       incluidos: "",
       excluidos: "",
-      options: ["CODIGO1|DESCRIPCION1", "CODIGO2|DESCRIPCION2", "CODIGO3|DESCRIPCION3", "CODIGO4 | DESCRIPCION4"],
+      buscador: "",
+      options: ["CODIGO1|DESCRIPCION1", "CODIGO2|DESCRIPCION2", "CODIGO3|DESCRIPCION3", "CODIGO4|DESCRIPCION4"],
     }
   }
 
+  setFiltro(value) {
+    this.setState({ buscador: value });
+  }
+
   toggleModal(titulo) {
-    this.setState({ isOpen: !this.state.isOpen, titulo: titulo })
+    this.setState({ isOpen: !this.state.isOpen, titulo: titulo, buscador: "" })
   }
 
   add(datos) {
@@ -112,20 +118,30 @@ class Filter extends React.Component {
     }
   }
 
-  clear(boton) {
+  clear(titulo) {
     let opciones = JSON.parse(JSON.stringify(this.state.options));
-    if (boton === "Incluir X Medicamentos") {
+    if (titulo === "Incluir X Medicamentos") {
       let clear = JSON.parse(JSON.stringify(this.state.incluidos));
-      if (clear != "") {
+      if (clear !== "") {
         let aux = opciones.concat(clear.split(",\n")).sort();
         this.setState({ incluidos: "", options: aux })
       }
     } else {
       let clear = JSON.parse(JSON.stringify(this.state.excluidos));
-      if (clear != "") {
-        let aux = opciones.concat(clear.split(",\n")).sort;
+      if (clear !== "") {
+        let aux = opciones.concat(clear.split(",\n")).sort();
         this.setState({ excluidos: "", options: aux })
       }
+    }
+  }
+
+  buscar = () => {
+    let aux = JSON.parse(JSON.stringify(this.state.options));
+    if (this.state.buscador !== "") {
+      let regex = this.state.buscador.toLowerCase();
+      return aux.filter(v => v.toLowerCase().match(regex) != '' && v.toLowerCase().match(regex) != null);
+    } else {
+      return aux;
     }
   }
 
@@ -181,7 +197,9 @@ class Filter extends React.Component {
           aceptar="Add"
           cancelar="Cancel"
           titulo={this.state.titulo}
-          options={this.state.options} />
+          options={this.buscar()}
+          setFiltro={(x) => this.setFiltro(x)}
+          buscador={this.state.buscador} />
       </>
     )
   }
