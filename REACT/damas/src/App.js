@@ -13,7 +13,10 @@ function Botonera(props) {
           elemento = c;
       }))
       if (elemento) {
-        return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]}></Button></Col>
+        if (elemento.split(",")[2] === "secondary")
+          return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]}></Button></Col>
+        else
+          return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]} onClick={() => props.setSeleccionado(i, j)}></Button></Col>
       } else {
         return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color="secondary" outline></Button></Col>
       }
@@ -28,7 +31,12 @@ class App extends Component {
       //DEFINE EL ESTADO DE TU COMPONENTE PRINCIPAL
       //Recuerda que si defines una tabla 8x8 tu estado será inválido.
       tabla: Array(8),
+      seleccionado: []
     };
+  }
+
+  setSeleccionado(i, j) {
+    this.setState({ seleccionado: [i, j] })
   }
 
   componentWillMount() {
@@ -39,7 +47,9 @@ class App extends Component {
     tableroEntero.forEach((fila, i) => {
       let array = [];
       fila.forEach((columna, j) => {
-        if (i == 0 || i % divisor === 0) {
+        if (i == this.state.seleccionado[0] && j == this.state.seleccionado[1]) {
+          array.push(i + "," + j + ",danger")
+        } else if (i == 0 || i % divisor === 0) {
           if (j % divisor !== 0) {
             if (i < 5) {
               array.push(i + "," + j + ",secondary")
@@ -67,7 +77,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {/* //AQUÍ TIENES QUE RENDERIZAR EL COMPONENTE BOTONERA */}
-          <Botonera tabla={this.state.tabla} />
+          <Botonera tabla={this.state.tabla} setSeleccionado={(i, j) => this.setSeleccionado(i, j)} />
         </header>
       </div>
     );
