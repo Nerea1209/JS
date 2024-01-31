@@ -16,7 +16,7 @@ function Botonera(props) {
         if (elemento.split(",")[2] === "secondary")
           return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]}></Button></Col>
         else
-          return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]} onClick={() => props.colorear(i, j)}></Button></Col>
+          return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color={elemento.split(",")[2]} onClick={() => props.onClick(i, j)}></Button></Col>
       } else {
         return <Col key={i + "" + j} style={{ padding: 0 }}><Button style={{ width: '100%', height: '100%' }} color="secondary" outline></Button></Col>
       }
@@ -36,13 +36,27 @@ class App extends Component {
 
   puedeMover(f, c) {
     let aux = JSON.parse(JSON.stringify(this.state.tabla));
-    let elemento = aux.find((fila, i) => fila.find((columna, j) => columna.split(",")[0] == f && columna.split(",")[1] == c));
-    if (elemento.split(",")[2] === "danger") {
-      if (f % 2 === 0) { // par
+    let izq = undefined;
+    aux.find(v => v.find(c => {
+      if (c === (f - 1) + "," + (c - 1) + ",secondary")
+        izq = c;
+    }))
+    let der = undefined;
+    aux.find(v => v.find(c => {
+      if (c === (f - 1) + "," + (c + 1) + ",secondary")
+        der = c;
+    }))
+    if (izq || der) {
+      return true;
+    } else {
+      return false;
+    }
 
-      } else { // impar
+  }
 
-      }
+  onClick(f, c) {
+    if (this.puedeMover(f, c)) {
+      this.colorear(f, c);
     }
   }
 
@@ -115,7 +129,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {/* //AQUÍ TIENES QUE RENDERIZAR EL COMPONENTE BOTONERA */}
-          <Botonera tabla={this.state.tabla} colorear={(i, j) => this.colorear(i, j)} />
+          <Botonera tabla={this.state.tabla} onClick={(i, j) => this.onClick(i, j)} />
         </header>
       </div>
     );
