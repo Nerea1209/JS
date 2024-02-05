@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+section#p1 {
+  display: flex;
+  justify-content: space-around;
+}
+
+section#p1>article {
+  flex: 0 5.8%;
+}
+
+section#p1>article>input {
+  display: none;
+}
+
+section#p1>article>label {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  cursor: pointer;
+  padding: .5rem;
+  border-radius: .5rem;
+}
+
+section#p1>article>input:checked+label {
+  border: 1px solid rgb(210, 205, 205);
+
+}
