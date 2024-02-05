@@ -11,6 +11,13 @@ import {
 import "./App.css"
 import rojiza from "./Images/pielRojiza.png"
 import blanca from "./Images/pielBlanca.png"
+import beige from "./Images/pielBeige.png"
+import beigeClaro from "./Images/pielBeigeClaro.png"
+import marronClaro from "./Images/marronClaro.png"
+import marron from "./Images/pielMarron.png"
+import negra from "./Images/pielNegra.png"
+
+
 function Opciones(props) {
   const [open, setOpen] = useState('');
   const toggle = (id) => {
@@ -34,21 +41,85 @@ function Opciones(props) {
                   <Input
                     type="radio"
                     name='p1'
-                    value={0}
+                    value={1}
                     id='o1'
                   />
-                  <label for="o1"><img src={rojiza} alt="Piel rojiza" />
-                    Rojiza</label>
+                  <label for="o1">
+                    <img src={rojiza} alt="Piel rojiza" />
+                    Rojiza
+                  </label>
                 </article>
                 <article>
                   <Input
                     type="radio"
                     name='p1'
-                    value={0}
+                    value={2}
                     id='o2'
                   />
-                  <label for="o2"><img src={blanca} alt="Piel blanca" />
-                    Blanca</label>
+                  <label for="o2">
+                    <img src={blanca} alt="Piel blanca" />
+                    Blanca
+                  </label>
+                </article>
+                <article>
+                  <Input
+                    type="radio"
+                    name='p1'
+                    value={3}
+                    id='o3'
+                  />
+                  <label for="o3">
+                    <img src={beigeClaro} alt="Piel beige claro" />
+                    Beige claro
+                  </label>
+                </article>
+                <article>
+                  <Input
+                    type="radio"
+                    name='p1'
+                    value={4}
+                    id='o4'
+                  />
+                  <label for="o4">
+                    <img src={beige} alt="Piel beige" />
+                    Beige
+                  </label>
+                </article>
+                <article>
+                  <Input
+                    type="radio"
+                    name='p1'
+                    value={5}
+                    id='o5'
+                  />
+                  <label for="o5">
+                    <img src={marronClaro} alt="Piel marrón claro" />
+                    Marrón claro
+                  </label>
+                </article>
+                <article>
+                  <Input
+                    type="radio"
+                    name='p1'
+                    value={6}
+                    id='o6'
+                  />
+                  <label for="o6">
+                    <img src={marron} alt="Piel marrón" />
+                    Marrón
+                  </label>
+                </article>
+                <article>
+                  <Input
+                    type="radio"
+                    name='p1'
+                    value={7}
+                    id='o7'
+                  />
+                  <label for="o7">
+                    <img src={negra} alt="Piel negra" />
+                    Negra
+                  </label>
                 </article>
               </section>
             </AccordionBody>

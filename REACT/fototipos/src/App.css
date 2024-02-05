@@ -8,7 +8,7 @@ section#p1 {
 }
 
 section#p1>article {
-  flex: 0 5.8%;
+  flex: 0 14%;
 }
 
 section#p1>article>input {

@@ -25,9 +25,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>{this.state.letrero}</h1>
-        <Boton cambia={() => this.cambia({saludo: "Hello!"})} texto="Inglés" color="danger" />
-        <Boton cambia={() => this.cambia({saludo: "Salut!"})} texto="Francés" color="info" />
-        <Boton cambia={() => this.cambia({saludo: "¡Hola!"})} texto="Español" color="success" />
+        <Boton cambia={() => this.cambia({ saludo: "Hello!" })} texto="Inglés" color="danger" />
+        <Boton cambia={() => this.cambia({ saludo: "Salut!" })} texto="Francés" color="info" />
+        <Boton cambia={() => this.cambia({ saludo: "¡Hola!" })} texto="Español" color="success" />
       </div>
     );
   }
