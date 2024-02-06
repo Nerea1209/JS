@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+div.modal-body {
+  display: flex;
+  flex-flow: column;
+}
+
 img {
   width: 100%;
   height: auto;
