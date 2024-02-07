@@ -26,7 +26,7 @@ const DATOS = {
                 { "name": "p2", "id": "o25", "src": IMAGES.pelo.castano, "alt": "Castaño", "texto": "Castaño", "valor": 4 },
                 { "name": "p2", "id": "o26", "src": IMAGES.pelo.castanoOscuro, "alt": "Castaño oscuro", "texto": "Castaño oscuro", "valor": 8 },
                 { "name": "p2", "id": "o27", "src": IMAGES.pelo.castanoMuyOscuro, "alt": "Castaño muy oscuro", "texto": "Castaño muy oscuro", "valor": 12 },
-                { "name": "p2", "id": "o27", "src": IMAGES.pelo.negro, "alt": "Negro", "texto": "Negro", "valor": 16 }
+                { "name": "p2", "id": "o28", "src": IMAGES.pelo.negro, "alt": "Negro", "texto": "Negro", "valor": 16 }
             ]
         },
         {
@@ -40,9 +40,9 @@ const DATOS = {
                 { "name": "p3", "id": "o35", "src": IMAGES.ojos.ojosVerdes, "alt": "Verdes", "texto": "Verdes", "valor": 2 },
                 { "name": "p3", "id": "o36", "src": IMAGES.ojos.ojosGrises, "alt": "Grises", "texto": "Grises", "valor": 2 },
                 { "name": "p3", "id": "o37", "src": IMAGES.ojos.ojosMarronClaro, "alt": "Marrones claros", "texto": "Marrones claros", "valor": 4 },
-                { "name": "p3", "id": "o37", "src": IMAGES.ojos.ojosMarrones, "alt": "Marrones", "texto": "Marrones", "valor": 8 },
-                { "name": "p3", "id": "o37", "src": IMAGES.ojos.ojosMarronesOscuros, "alt": "Marrones oscuros", "texto": "Marrones oscuros", "valor": 12 },
-                { "name": "p3", "id": "o37", "src": IMAGES.ojos.ojosNegros, "alt": "Negros", "texto": "Negros", "valor": 16 }
+                { "name": "p3", "id": "o38", "src": IMAGES.ojos.ojosMarrones, "alt": "Marrones", "texto": "Marrones", "valor": 8 },
+                { "name": "p3", "id": "o39", "src": IMAGES.ojos.ojosMarronesOscuros, "alt": "Marrones oscuros", "texto": "Marrones oscuros", "valor": 12 },
+                { "name": "p3", "id": "o310", "src": IMAGES.ojos.ojosNegros, "alt": "Negros", "texto": "Negros", "valor": 16 }
             ]
         },
         {
@@ -75,7 +75,7 @@ const DATOS = {
                 { "name": "p6", "id": "o63", "texto": "Se quema ocasionalmente, pero se broncea moderadamente", "valor": 4 },
                 { "name": "p6", "id": "o64", "texto": "Nunca se quema y se broncea con facilidad", "valor": 8 },
                 { "name": "p6", "id": "o65", "texto": "Raramente se quema y se broncea profundamente", "valor": 10 },
-                { "name": "p6", "id": "o66", "texto": "Nunca se quema", "valor": 8 }
+                { "name": "p6", "id": "o66", "texto": "Nunca se quema", "valor": 12 }
             ]
         },
         {
@@ -88,6 +88,14 @@ const DATOS = {
                 { "name": "p7", "id": "o74", "texto": "Se puede broncear profundamente", "valor": 8 }
             ]
         }
+    ],
+    "resultados": [
+        { "tipo": 1, "min": 0, "max": 7, "body": "Su piel es muy sensible a la luz solar." },
+        { "tipo": 2, "min": 8, "max": 21, "body": "Su piel es sensible a la luz solar." },
+        { "tipo": 3, "min": 22, "max": 42, "body": "Su piel tiene sensibilidad normal a la luz solar." },
+        { "tipo": 4, "min": 43, "max": 68, "body": "Su piel tiene tolerancia a la luz solar." },
+        { "tipo": 5, "min": 69, "max": 84, "body": "Su piel es oscura y tiene alta tolerancia a la luz solar." },
+        { "tipo": 6, "min": 85, "max": 1000, "body": "Su piel es negra y tiene altísima tolerancia a la luz solar." }
     ]
 }
 

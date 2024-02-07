@@ -35,6 +35,14 @@ const IMAGES = {
         "algunas": "../Images/algunas.png",
         "pocas": "../Images/pocas.png",
         "ninguna": "../Images/ninguna.png"
+    },
+    "fototipos": {
+        "1": "../Images/fototipo1.png",
+        "2": "../Images/fototipo2.png",
+        "3": "../Images/fototipo3.png",
+        "4": "../Images/fototipo4.png",
+        "5": "../Images/fototipo5.png",
+        "6": "../Images/fototipo6.png"
     }
 }
 

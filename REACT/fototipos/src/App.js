@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Accordion,
   AccordionBody,
@@ -11,32 +11,11 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
 } from 'reactstrap';
 import "./App.css"
 import DATOS from "./datos.js"
+import IMAGES from "./images.js"
 
-
-const VentanaModal = (props) => {
-  const {
-    className
-  } = props;
-
-  return (
-    <div>
-      <Modal isOpen={props.mostrar} toggle={props.toggle} className={className} >
-        <ModalHeader id='header' toggle={props.toggle}><span>Tipo de piel I</span><Button id='x' outline onClick={props.toggle}>x</Button></ModalHeader>
-        <ModalBody>
-          Su tipo de piel es muy sensible a la luz solar.
-        </ModalBody>
-        <ModalFooter>
-          <span style={{ color: "red" }}>{props.error}</span><Button color="primary" onClick={() => props.add(props.nombre, props.telefono)}>Ok</Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-
-  );
-}
 
 function Example(props) {
   const { className } = props;
@@ -54,6 +33,7 @@ function Example(props) {
         backdrop={backdrop}
         keyboard={keyboard}
         centered={true}
+        size='sm'
       >
         <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
         <ModalBody>
@@ -75,6 +55,8 @@ class Opciones extends React.Component {
       title: "",
       body: "",
       error: "*",
+      error2: "",
+      resultados: undefined,
     }
   }
   toggle = (id) => {
@@ -86,6 +68,16 @@ class Opciones extends React.Component {
   };
   toggleModal() {
     this.setState({ mostrar: !this.state.mostrar, p: ["", "", "", "", "", "", ""], open: "" })
+  }
+  getvoto(int) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log(this.responseText);
+      }
+    }
+    xmlhttp.open("GET", "http://localhost/Proyectos/fototipos/fototipos.php?voto=" + int, true);
+    xmlhttp.send();
   }
   handelChange = (event) => {
     const target = event.target;
@@ -121,31 +113,8 @@ class Opciones extends React.Component {
   }
 
   seleccionado = (id) => {
-    switch (id) {
-      case 'p1':
-        if (this.state.p[0] !== "") return "Seleccionado";
-        else return "*"
-      case 'p2':
-        if (this.state.p[1] !== "") return "Seleccionado";
-        else return "*"
-      case 'p3':
-        if (this.state.p[2] !== "") return "Seleccionado";
-        else return "*"
-      case 'p4':
-        if (this.state.p[3] !== "") return "Seleccionado";
-        else return "*"
-      case 'p5':
-        if (this.state.p[4] !== "") return "Seleccionado";
-        else return "*"
-      case 'p6':
-        if (this.state.p[5] !== "") return "Seleccionado";
-        else return "*"
-      case 'p7':
-        if (this.state.p[6] !== "") return "Seleccionado";
-        else return "*"
-      default:
-        return "";
-    }
+    if (this.state.p[id.substring(1, 2) - 1] !== "") return "Seleccionado";
+    else return "*";
   }
 
   onClick = () => {
@@ -154,25 +123,22 @@ class Opciones extends React.Component {
       this.setState({ mostrar: true });
       console.log(this.state.mostrar)
       this.calcular();
+      this.setState({ error2: "" })
+    } else {
+      this.setState({ error2: "Responda a todas las preguntas" })
     }
   }
 
   calcular = () => {
     let suma = 0;
     DATOS.preguntas.forEach((v, i) => suma += v.respuestas[this.state.p[i]].valor);
-    if (suma >= 0 && suma <= 7) {
-      this.setState({ title: "Tipo de piel I", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" /><span>Su piel es muy sensible a la luz solar</span></> });
-    } else if (suma >= 8 && suma <= 21) {
-      this.setState({ title: "Tipo de piel II", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" />Su piel es sensible a la luz solar</> });
-    } else if (suma >= 22 && suma <= 42) {
-      this.setState({ title: "Tipo de piel III", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" />Su piel tiene sensibilidad normal a la luz solar</> });
-    } else if (suma >= 43 && suma <= 68) {
-      this.setState({ title: "Tipo de piel IV", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" />Su piel tiene tolerancia a la luz solar</> });
-    } else if (suma >= 69 && suma <= 84) {
-      this.setState({ title: "Tipo de piel V", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" />Su piel es oscura y tiene alta tolerancia a la luz solar.</> });
-    } else {
-      this.setState({ title: "Tipo de piel VI", body: <><span>Su puntuación ha sido {suma}</span><img src="" alt="" />Su piel es negra y tiene altísima tolerancia a la luz solar.</> });
-    }
+    DATOS.resultados.forEach((v, i) => {
+      if (suma >= v.min && suma <= v.max) {
+        this.getvoto(v.tipo)
+        // {this.state.resultados[v.tipo]}
+        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body}<span>El </span></> });
+      }
+    })
   }
   render() {
     return (
@@ -193,6 +159,7 @@ class Opciones extends React.Component {
                             value={j}
                             id={r.id}
                             onChange={this.handelChange}
+                            checked={this.state.p[i] === j.toString()}
                           />
                           <label for={r.id}>
                             <img src={r.src} alt={r.alt} />
@@ -207,6 +174,7 @@ class Opciones extends React.Component {
                             value={j}
                             id={r.id}
                             onChange={this.handelChange}
+                            checked={this.state.p[i] === j.toString()}
                           />
                           <label for={r.id}>
                             {r.texto}
@@ -218,13 +186,13 @@ class Opciones extends React.Component {
                 </AccordionBody>
               </AccordionItem>
             )}
-            <Button
+            <span style={{ color: "red" }}>{this.state.error2}<Button
               color="primary"
               id='boton'
               onClick={() => this.onClick()}
             >
               Obtener resultados
-            </Button>
+            </Button></span>
             <Example mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} />
           </Form>
         </Accordion>
