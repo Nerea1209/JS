@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 //Se abre el fichero deonde están almacenados los datos
 $fichero = "resultados.txt";
 $contenido = file($fichero);
@@ -51,3 +52,5 @@ $tantofototipo3 = 100 * round($fototipo3 / $denominador, 2);
 $tantofototipo4 = 100 * round($fototipo4 / $denominador, 2);
 $tantofototipo5 = 100 * round($fototipo5 / $denominador, 2);
 $tantofototipo6 = 100 * round($fototipo6 / $denominador, 2);
+
+echo json_encode(array("1" => $tantofototipo1, "2" => $tantofototipo2, "3" => $tantofototipo3, "4" => $tantofototipo4, "5" => $tantofototipo5, "6" => $tantofototipo6));
