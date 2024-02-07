@@ -38,6 +38,7 @@ function Example(props) {
         <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
         <ModalBody>
           {props.body}
+          {props.estadistica}
         </ModalBody>
       </Modal>
     </div>
@@ -56,7 +57,8 @@ class Opciones extends React.Component {
       body: "",
       error: "*",
       error2: "",
-      resultados: undefined,
+      estadistica: "",
+      resultados: "",
     }
   }
   toggle = (id) => {
@@ -70,14 +72,18 @@ class Opciones extends React.Component {
     this.setState({ mostrar: !this.state.mostrar, p: ["", "", "", "", "", "", ""], open: "" })
   }
   getvoto(int) {
+    let resultado = 0;
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log(this.responseText);
+        resultado = this.responseText;
+        console.log(resultado.slice(1, -1).split(",")[int])
       }
     }
     xmlhttp.open("GET", "http://localhost/Proyectos/fototipos/fototipos.php?voto=" + int, true);
     xmlhttp.send();
+    setTimeout(console.log("<span>El " + resultado.slice(1, -1).split(",")[int] + "</span>"), 200)
+    this.setState({ estadistica: "<span>El " + resultado.slice(1, -1).split(",")[int] + "</span>" })
   }
   handelChange = (event) => {
     const target = event.target;
@@ -121,7 +127,6 @@ class Opciones extends React.Component {
     if (this.state.p[0] !== "" && this.state.p[1] !== "" && this.state.p[2] !== "" &&
       this.state.p[3] !== "" && this.state.p[4] !== "" && this.state.p[5] !== "" && this.state.p[6] !== "") {
       this.setState({ mostrar: true });
-      console.log(this.state.mostrar)
       this.calcular();
       this.setState({ error2: "" })
     } else {
@@ -136,7 +141,7 @@ class Opciones extends React.Component {
       if (suma >= v.min && suma <= v.max) {
         this.getvoto(v.tipo)
         // {this.state.resultados[v.tipo]}
-        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body}<span>El </span></> });
+        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body + this.state.estadistica}</> });
       }
     })
   }
@@ -193,7 +198,7 @@ class Opciones extends React.Component {
             >
               Obtener resultados
             </Button></span>
-            <Example mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} />
+            <Example mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} estadistica={this.state.estadistica} toggle={() => this.toggleModal()} />
           </Form>
         </Accordion>
       </div >
