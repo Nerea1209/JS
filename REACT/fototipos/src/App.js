@@ -17,7 +17,7 @@ import DATOS from "./datos.js"
 import IMAGES from "./images.js"
 
 
-function Example(props) {
+function VentanaModal(props) {
   const { className } = props;
   const [modal, setModal] = useState(props.mostrar);
   const [backdrop, setBackdrop] = useState(true);
@@ -38,7 +38,6 @@ function Example(props) {
         <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
         <ModalBody>
           {props.body}
-          {props.estadistica}
         </ModalBody>
       </Modal>
     </div>
@@ -57,8 +56,6 @@ class Opciones extends React.Component {
       body: "",
       error: "*",
       error2: "",
-      estadistica: "",
-      resultados: "",
     }
   }
   toggle = (id) => {
@@ -72,50 +69,23 @@ class Opciones extends React.Component {
     this.setState({ mostrar: !this.state.mostrar, p: ["", "", "", "", "", "", ""], open: "" })
   }
   getvoto(int) {
-    let resultado = 0;
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        resultado = this.responseText;
-        console.log(resultado.slice(1, -1).split(",")[int])
+        let resultado = "El " + this.responseText + "% de las personas que han respondido este test tiene su mismo fototipo de piel.";
       }
     }
     xmlhttp.open("GET", "http://localhost/Proyectos/fototipos/fototipos.php?voto=" + int, true);
     xmlhttp.send();
-    setTimeout(console.log("<span>El " + resultado.slice(1, -1).split(",")[int] + "</span>"), 200)
-    this.setState({ estadistica: "<span>El " + resultado.slice(1, -1).split(",")[int] + "</span>" })
   }
   handelChange = (event) => {
-    const target = event.target;
     let aux = this.state.p.slice();
-    if (target.name === "p1") {
-      aux[0] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p2") {
-      aux[1] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p3") {
-      aux[2] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p4") {
-      aux[3] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p5") {
-      aux[4] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p6") {
-      aux[5] = target.value;
-      this.setState({ p: aux });
-    }
-    if (target.name === "p7") {
-      aux[6] = target.value;
-      this.setState({ p: aux });
-    }
+    DATOS.preguntas.forEach((v, i) => {
+      if (event.target.name === v.id) {
+        aux[i] = event.target.value;
+      }
+    })
+    this.setState({ p: aux });
   }
 
   seleccionado = (id) => {
@@ -140,8 +110,7 @@ class Opciones extends React.Component {
     DATOS.resultados.forEach((v, i) => {
       if (suma >= v.min && suma <= v.max) {
         this.getvoto(v.tipo)
-        // {this.state.resultados[v.tipo]}
-        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body + this.state.estadistica}</> });
+        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body}</> });
       }
     })
   }
@@ -166,7 +135,7 @@ class Opciones extends React.Component {
                             onChange={this.handelChange}
                             checked={this.state.p[i] === j.toString()}
                           />
-                          <label for={r.id}>
+                          <label htmlFor={r.id}>
                             <img src={r.src} alt={r.alt} />
                             {r.texto}
                           </label>
@@ -181,7 +150,7 @@ class Opciones extends React.Component {
                             onChange={this.handelChange}
                             checked={this.state.p[i] === j.toString()}
                           />
-                          <label for={r.id}>
+                          <label htmlFor={r.id}>
                             {r.texto}
                           </label>
                         </article>
@@ -198,7 +167,7 @@ class Opciones extends React.Component {
             >
               Obtener resultados
             </Button></span>
-            <Example mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} estadistica={this.state.estadistica} toggle={() => this.toggleModal()} />
+            <VentanaModal mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} />
           </Form>
         </Accordion>
       </div >

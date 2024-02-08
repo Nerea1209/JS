@@ -36,6 +36,7 @@ img {
 div.modal-body>img {
   max-width: 266px;
   border-radius: 1rem;
+  margin: .5rem 0;
 }
 
 .accordion-item {
