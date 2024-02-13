@@ -12,7 +12,7 @@ function Grafico(props) {
     // Función para realizar la solicitud GET
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost/Proyectos/fototipos/fotitpos2.php');
+        const response = await axios.get('http://localhost/Proyectos/fototipos/fototipos2.php');
         console.log(response.data)
         setData(response.data);
       } catch (error) {

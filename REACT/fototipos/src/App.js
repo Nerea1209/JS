@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactEcharts from 'echarts-for-react';
 import {
   Accordion,
   AccordionBody,
@@ -11,10 +12,73 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  Collapse,
+  Card,
+  CardBody
 } from 'reactstrap';
 import "./App.css"
 import DATOS from "./datos.js"
 import IMAGES from "./images.js"
+import axios from 'axios';
+
+
+function Grafico(props) {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Función para realizar la solicitud GET
+    const fetchData = async () => {
+      try {
+        const response = await axios.post('http://localhost/Proyectos/fototipos/fototipos2.php');
+        console.log(response.data)
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Llamada a la función para realizar la solicitud cuando el componente se monta
+    fetchData();
+  }, []);
+
+  const option = {
+    title: {
+      text: 'Resultados de los fototipos de IES Mar de Alborán',
+      textAlign: "center",
+      left: '50%',
+    },
+    tooltip: {},
+    xAxis: {
+      data: ['Fototipo I', 'Fototipo II', 'Fototipo III', 'Fototipo IV', 'Fototipo V', 'Fototipo VI']
+    },
+    yAxis: {},
+    series: [
+      {
+        name: 'Respuestas',
+        type: 'bar',
+        data: data,
+        itemStyle: {
+          normal: {
+            color: function (params) {
+              const colorList = ['#F2E7D2', '#F79EB1', '#D97C90', '#AE8FBA', '#4C5E91', '#473469'];
+              return colorList[params.dataIndex];
+            }
+          }
+        }
+      }
+    ]
+  };
+
+  return (
+    <ReactEcharts
+      option={option}
+      style={{ height: '400px', width: '100%' }}
+      notMerge={true}
+      lazyUpdate={true}
+    />
+  );
+
+}
 
 
 function VentanaModal(props) {
@@ -33,29 +97,32 @@ function VentanaModal(props) {
         backdrop={backdrop}
         keyboard={keyboard}
         centered={true}
-        size='sm'
+        fullscreen={true}
       >
-        <ModalHeader toggle={toggle}>{props.title}</ModalHeader>
+        <ModalHeader toggle={toggle}>Resultados del test</ModalHeader>
         <ModalBody>
+          <h2>{props.title}</h2>
           {props.body}
+          <Grafico />
+          <span>{props.estadistica}</span>
         </ModalBody>
       </Modal>
     </div>
   );
 }
 
-
 class Opciones extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: "",
+      open: "0",
       p: ["", "", "", "", "", "", ""],
       mostrar: false,
       title: "",
       body: "",
       error: "*",
       error2: "",
+      estadistica: "",
     }
   }
   toggle = (id) => {
@@ -68,16 +135,15 @@ class Opciones extends React.Component {
   toggleModal() {
     this.setState({ mostrar: !this.state.mostrar, p: ["", "", "", "", "", "", ""], open: "" })
   }
-  getvoto(int) {
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        let resultado = "El " + this.responseText + "% de las personas que han respondido este test tiene su mismo fototipo de piel.";
-      }
+  async getvoto(int) {
+    try {
+      const response = await axios.post('http://localhost/Proyectos/fototipos/fototipos.php?voto=' + int);
+      this.setState({ estadistica: "El " + response.data + "% de las personas que han respondido este test tienen su mismo fototipo de piel." });
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-    xmlhttp.open("GET", "http://localhost/Proyectos/fototipos/fototipos.php?voto=" + int, true);
-    xmlhttp.send();
   }
+
   handelChange = (event) => {
     let aux = this.state.p.slice();
     DATOS.preguntas.forEach((v, i) => {
@@ -110,7 +176,7 @@ class Opciones extends React.Component {
     DATOS.resultados.forEach((v, i) => {
       if (suma >= v.min && suma <= v.max) {
         this.getvoto(v.tipo)
-        this.setState({ title: "Tipo de piel " + v.tipo, body: <><span>Su puntuación ha sido {suma} puntos.</span><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} />{v.body}</> });
+        this.setState({ title: "Tipo de piel " + v.tipo, body: <><div id='resultados'>Su puntuación ha sido <strong>{suma}puntos</strong> .<br />{v.body}</div><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} /></> });
       }
     })
   }
@@ -167,7 +233,7 @@ class Opciones extends React.Component {
             >
               Obtener resultados
             </Button></span>
-            <VentanaModal mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} />
+            <VentanaModal mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} estadistica={this.state.estadistica} />
           </Form>
         </Accordion>
       </div >
@@ -179,8 +245,28 @@ function App() {
   return (
     <div className="App">
       <h1>Descubre cuál es su fototipo</h1>
+      <section className='contenido'>
+        <h2>¿Qué es el fototipo?</h2>
+        El fototipo se refiere a la <strong>clasificación</strong> de la respuesta de la piel a la
+        exposición solar. Fue desarrollado por el dermatólogo <strong>Thomas B. Fitzpatrick </strong>
+        en la década de 1970. El sistema de clasificación de Fitzpatrick tiene en cuenta
+        la capacidad de la piel para <strong>broncearse</strong> y su propensión a <strong>quemarse</strong> cuando se
+        expone al sol.
+      </section>
+      <section className='contenido'>
+        <h2>Tipos de fototipos</h2>
+        <ol>
+          <li><strong> Tipo I:</strong>  Piel muy clara, cabello rubio o pelirrojo, ojos claros. Quema fácilmente y raramente se broncea.</li>
+          <li><strong> Tipo II:</strong>  Piel clara, cabello rubio o castaño claro, ojos claros. Quema con facilidad y se broncea con dificultad.</li>
+          <li><strong> Tipo III:</strong>  Piel clara a intermedia, cabello castaño, ojos de color variable. Quema moderadamente y se broncea gradualmente.</li>
+          <li><strong> Tipo IV:</strong>  Piel intermedia, cabello oscuro, ojos de color variable. Quema con dificultad y se broncea con facilidad.</li>
+          <li><strong> Tipo V:</strong>  Piel oscura, cabello oscuro, ojos oscuros. Raramente quema y se broncea fácilmente.</li>
+          <li><strong> Tipo VI:</strong>  Piel muy oscura, cabello oscuro, ojos oscuros. No suele quemarse y tiene una gran capacidad para broncearse.</li>
+        </ol>
+      </section>
+      <h2 id='test'>Test</h2>
       <Opciones />
-    </div>
+    </div >
   );
 }
 
