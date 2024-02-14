@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import {
   Accordion,
@@ -23,29 +23,12 @@ import axios from 'axios';
 
 
 function Grafico(props) {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    // Función para realizar la solicitud GET
-    const fetchData = async () => {
-      try {
-        const response = await axios.post('http://localhost/Proyectos/fototipos/fototipos2.php');
-        console.log(response.data)
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Llamada a la función para realizar la solicitud cuando el componente se monta
-    fetchData();
-  }, []);
-
   const option = {
     title: {
       text: 'Resultados de los fototipos de IES Mar de Alborán',
       textAlign: "center",
       left: '50%',
+      marginTop: "1rem",
     },
     tooltip: {},
     xAxis: {
@@ -56,7 +39,7 @@ function Grafico(props) {
       {
         name: 'Respuestas',
         type: 'bar',
-        data: data,
+        data: props.data,
         itemStyle: {
           normal: {
             color: function (params) {
@@ -103,7 +86,7 @@ function VentanaModal(props) {
         <ModalBody>
           <h2>{props.title}</h2>
           {props.body}
-          <Grafico />
+          <Grafico data={props.data} />
           <span>{props.estadistica}</span>
         </ModalBody>
       </Modal>
@@ -123,6 +106,7 @@ class Opciones extends React.Component {
       error: "*",
       error2: "",
       estadistica: "",
+      resultados: "",
     }
   }
   toggle = (id) => {
@@ -137,8 +121,11 @@ class Opciones extends React.Component {
   }
   async getvoto(int) {
     try {
-      const response = await axios.post('http://localhost/Proyectos/fototipos/fototipos.php?voto=' + int);
-      this.setState({ estadistica: "El " + response.data + "% de las personas que han respondido este test tienen su mismo fototipo de piel." });
+      const response = await axios.post('https://thematic-learning.com/2DAW2024/NEREA/fototipos.php?voto=' + int);
+      let suma = 0;
+      response.data.forEach((v, i) => suma += parseInt(v));
+      console.log(suma)
+      this.setState({ estadistica: "El " + (100 * (response.data[int - 1] / suma).toFixed(2)) + "% de las personas que han respondido este test tienen su mismo fototipo de piel.", resultados: response.data });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -176,7 +163,7 @@ class Opciones extends React.Component {
     DATOS.resultados.forEach((v, i) => {
       if (suma >= v.min && suma <= v.max) {
         this.getvoto(v.tipo)
-        this.setState({ title: "Tipo de piel " + v.tipo, body: <><div id='resultados'>Su puntuación ha sido <strong>{suma}puntos</strong> .<br />{v.body}</div><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} /></> });
+        this.setState({ title: "Tipo de piel " + v.tipo, body: <><div id='resultados'>Su puntuación ha sido <strong>{suma} puntos</strong> .<br />{v.body}</div><img src={IMAGES.fototipos[v.tipo]} alt={"Fototipo " + v.tipo} /></> });
       }
     })
   }
@@ -233,7 +220,7 @@ class Opciones extends React.Component {
             >
               Obtener resultados
             </Button></span>
-            <VentanaModal mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} estadistica={this.state.estadistica} />
+            <VentanaModal mostrar={this.state.mostrar} title={this.state.title} body={this.state.body} toggle={() => this.toggleModal()} estadistica={this.state.estadistica} data={this.state.resultados} />
           </Form>
         </Accordion>
       </div >

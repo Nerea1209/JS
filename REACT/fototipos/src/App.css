@@ -42,7 +42,7 @@ div.modal-body>h2 {
 
 div.modal-body>div#resultados {
   flex: 0 50%;
-
+  padding: .5rem;
 }
 
 img {
@@ -138,6 +138,15 @@ form #boton {
   margin: 1rem;
 }
 
+section.contenido {
+  display: block;
+  padding: .5rem 1rem;
+}
+
+#test {
+  padding: 0 1rem;
+}
+
 @media (min-width: 400px) {
   section#p1>article {
     flex: 0 25%;
@@ -170,13 +179,4 @@ form #boton {
   section#p3>article {
     flex: 0 10%;
   }
-}
-
-section.contenido {
-  display: block;
-  padding: .5rem 1rem;
-}
-
-#test {
-  padding: 0 1rem;
 }
