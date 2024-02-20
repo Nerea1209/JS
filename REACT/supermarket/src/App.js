@@ -2,24 +2,26 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 
 function Mapa(props) {
   return (
     <Container>
+      <Row>
+        {props.poblacion.map((v, i) => {
+          if (i % 9 === 0 && i !== 0) {
+            return (<>
+              <Col key={"a" + i} xs="3" style={{ visibility: "hidden" }}></Col>
+              <Col key={i} xs="1"><Button color='success' onClick={(e) => props.onClick(e)}>{v}</Button></Col>
+            </>)
 
-      {props.poblacion.map((v, i) => {
-        if (i % 9 === 0) {
-          return (
-            <Row xs="9">
-              <Col className="bg-light border">{v}</Col>
-            </Row>
-          )
-
-        } else {
-          return <Col className="bg-light border">{v}</Col>
-        }
-      })}
+          } else {
+            return (
+              <Col key={i} xs="1"><Button color='success'>{v}</Button></Col>
+            )
+          }
+        })}
+      </Row>
     </Container>
   );
 }
@@ -39,10 +41,19 @@ class App extends React.Component {
         1, 0, 12, 3, 0, 0, 21, 2, 2],
     };
   }
+  onClick(boton) {
+    console.log(boton)
+    // if (boton.color == "success") {
+
+    // }
+  }
   render() {
     return (
       <div className="App" >
-        <Mapa poblacion={this.state.poblacion} />
+        <h1>Supermarkets</h1>
+        <Mapa poblacion={this.state.poblacion} onClick={(boton) => this.onClick(boton)} />
+        <br />
+        <p><strong>Población total: </strong> {this.state.poblacion.reduce((suma, v) => suma + v, 0)} personas.</p>
       </div>
     );
   }
