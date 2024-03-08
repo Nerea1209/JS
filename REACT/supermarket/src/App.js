@@ -47,13 +47,15 @@ class App extends React.Component {
   }
   onClick(boton, i, j) {
     let color = boton.target.className.split("-")[1];
-    console.log(color)
+    // console.log(color)
     if (color === "success") {
-      boton.target.classList.remove("btn-success");
-      boton.target.classList.add("btn-primary");
+      // boton.target.classList.remove("btn-success");
+      // boton.target.classList.add("btn-primary");
+      let poblacion = JSON.parse(JSON.stringify(this.state.poblacion));
       let aux = JSON.parse(JSON.stringify(this.state.supermercados));
-      aux.push({ "nombre": "Supermercado " + (aux.length + 1), "coordenada": [i, j], "personas": this.encontrarSupermercados(i, j) })
+      aux.push({ "nombre": "Supermercado " + (aux.length + 1), "coordenada": [i, j], "personas": poblacion[i][j] })
       this.setState({ supermercados: aux })
+      this.encontrarSupermercados()
     } else {
       boton.target.classList.remove("btn-primary");
       boton.target.classList.add("btn-success");
@@ -63,41 +65,92 @@ class App extends React.Component {
     }
     // console.log(this.state.supermercados.map(v => <p><strong>{v.nombre} ({v.coordenada[0] + "," + v.coordenada[1]}): </strong> x personas.</p>))
   }
-  encontrarSupermercados(i, j) {
+  encontrarSupermercados() {
     let aux = JSON.parse(JSON.stringify(this.state.poblacion));
-    // Calcular distancia (D)
-    // i++;
-    // j++
-    let d = 1;
-    let personas = aux[i][j] * 1000;
-    while (i + d < aux.length || j + d < aux.length || j - d >= 0 || i - d >= 0) {
-      // console.log(d)
-      for (let l = i - d; l <= i + d; l++) {
-        for (let k = j - d; k <= j + d; k++) {
-          console.log(personas)
-          console.log("l" + l + "-k" + k)
-          if (i - d >= 0 && l == i - d) {
-            if (k < aux.length && k >= 0)
-              personas += aux[l][k] * 1000;
+    let mercados = JSON.parse(JSON.stringify(this.state.supermercados));
+    // console.log(mercados)
+    // Reseteo las personas de todos los supermercados
+    mercados.map(v => {
+      v.personas = aux.map((k, i) => k.map((l, j) => {
+        return i === v.coordenada[0] && j === v.coordenada[1] ? aux[i][j] : undefined;
+      }).filter(v => v !== undefined)).filter(v => v.length !== 0)[0][0]
+      return v
+    })
+
+    aux.forEach((v, i) => v.forEach((m, j) => {
+      // Calcular distancia (D)
+      // i++;
+      // j++
+      let encontrado = false
+      let d = 1;
+      // let personas = aux[i][j] * 1000;
+      while (!encontrado && (i + d < aux.length || j + d < aux.length || j - d >= 0 || i - d >= 0)) {
+        // console.log(d)
+        let cercanos = [];
+        for (let l = i - d; l <= i + d; l++) {
+          for (let k = j - d; k <= j + d; k++) {
+            // console.log(personas)
+            // console.log("l" + l + "-k" + k)
+            if (l >= 0 && k >= 0 && l < aux.length && k < aux[i].length) {
+              // console.log(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k))
+              // console.log(mercados)
+              if (mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k)) {
+                //   // console.log("hola")
+                cercanos.push(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k));
+                encontrado = true;
+              }
+              // personas += aux[l][k] * 1000;
+            }
           }
-          console.log(personas)
-          if (j - d >= 0 && k == j - d && l != i - d && l != i + d) {
-            if (l < aux.length && l >= 0)
-              personas += aux[l][k] * 1000;
-          }
-          console.log(personas)
-          if (i + d < aux.length && l == i + d) {
-            if (k < aux.length && k >= 0)
-              personas += aux[l][k] * 1000;
-          }
-          console.log(personas)
-          if (j + d < aux.length && k == j + d && l != i + d && l != i - d) {
-            if (l < aux.length && l >= 0)
-              personas += aux[l][k] * 1000;
-          }
-          console.log(personas)
         }
+
+
+
+        mercados.map(o => {
+          if (cercanos.length > 0) {
+            console.log(cercanos)
+            cercanos.forEach(v => {
+              // console.log(v.personas)
+              v.personas += aux[i][j] / cercanos.length
+              // console.log(v.personas)
+              // Actualizo en la matriz
+              console.log(mercados.find(k => k.nombre === v.nombre))
+              if (mercados.find(k => k.nombre === v.nombre)) {
+                // mercados[mercados.index].poblacion += v.pobacion
+                // console.log(v.personas)
+                // mercados.filter(k => k.nombre != mercados.find(v => v.coordenada[0] == i && v.coordenada[1] == j).nombre).push(v);
+                // mercados.find(k => k.nombre === v.nombre).personas = v.personas
+                mercados.find(k => k.nombre === v.nombre).personas = v.personas
+              }
+              this.setState({ supermercados: mercados })
+
+              // mercados.push(v);
+              // console.log(mercados)
+              // this.setState({ supermercados: mercados })
+            })
+          } else {
+            o.personas += aux[i][j]
+          }
+        })
+        d++;
       }
+      // console.log(personas)
+      // if (j - d >= 0 && k == j - d && l != i - d && l != i + d) {
+      //   if (l < aux.length && l >= 0)
+      //     personas += aux[l][k] * 1000;
+      // }
+      // console.log(personas)
+      // if (i + d < aux.length && l == i + d) {
+      //   if (k < aux.length && k >= 0)
+      //     personas += aux[l][k] * 1000;
+      // }
+      // console.log(personas)
+      // if (j + d < aux.length && k == j + d && l != i + d && l != i - d) {
+      //   if (l < aux.length && l >= 0)
+      //     personas += aux[l][k] * 1000;
+      // }
+      // console.log(personas)
+
       // if (j - d >= 0) {
       //   // Izquierda
       //   console.log("izq" + aux[i][j - d] * 1000)
@@ -139,13 +192,12 @@ class App extends React.Component {
       //   // Diagonal abajo-derecha
       //   personas += aux[i + d][j + d] * 1000;
       // }
-      d++;
-    }
-    return personas;
-    // this.state.poblacion.find((v, i) => i)
-    // Filtro supermercados a esa distancia (D) -> N
-    // Divido poblacion entre supermercados -> P
-    // A cada supermercado del filtro le sumo la P
+
+      // this.state.poblacion.find((v, i) => i)
+      // Filtro supermercados a esa distancia (D) -> N
+      // Divido poblacion entre supermercados -> P
+      // A cada supermercado del filtro le sumo la P
+    }))
   }
   render() {
     return (
