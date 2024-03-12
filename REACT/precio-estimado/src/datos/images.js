@@ -1,1 +1,1 @@
-export const IMAGES = ["/images/img1.jpg", "/images/img2.jpg", "/images/img3.jpg"];
+export const IMAGES = ["/2DAW2024/NEREA/precio-estimado/images/img1.webp", "/2DAW2024/NEREA/precio-estimado/images/img2.webp", "/2DAW2024/NEREA/precio-estimado/images/img3.webp"];

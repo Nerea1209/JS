@@ -3,18 +3,22 @@ import {
     Progress
 } from 'reactstrap';
 
-export default function Progreso() {
+export default function Progreso(props) {
+    const MAX = 4;
     return (
         <>
             <Progress
                 animated
                 className="my-3"
-                max="5"
-                value="0"
+                max={MAX}
+                value={props.value}
+                defaultValue={0}
                 style={{
-                    height: '5px'
+                    height: '12px'
                 }}
-            />
+            >
+                {(props.value / MAX) * 100} %
+            </Progress>
         </>
     )
 }
