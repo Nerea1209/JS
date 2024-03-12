@@ -13,19 +13,22 @@ const items = [
     {
         src: IMAGES[0],
         altText: 'Slide 1',
-        caption: 'Slide 1',
+        captionHeader: 'Bienvenido a nuestra plataforma de valoración de propiedades.',
+        captionText: '¿Te has preguntado alguna vez cuánto vale realmente tu hogar?',
         key: 1,
     },
     {
         src: IMAGES[1],
         altText: 'Slide 2',
-        caption: 'Slide 2',
+        captionHeader: 'Con nuestra herramienta intuitiva,',
+        captionText: 'puedes obtener una estimación precisa del valor de tu propiedad en cuestión de minutos.',
         key: 2,
     },
     {
-        src: IMAGES[0],
+        src: IMAGES[2],
         altText: 'Slide 3',
-        caption: 'Slide 3',
+        captionHeader: 'Simplemente ingresa algunos detalles sobre tu casa',
+        captionText: 'y nuestro algoritmo avanzado hará el resto. ¡Descubre ahora mismo cuánto vale tu inversión!',
         key: 3,
     },
 ];
@@ -60,8 +63,8 @@ function Carrusel(args) {
             >
                 <img src={item.src} alt={item.altText} />
                 <CarouselCaption
-                    captionText={item.caption}
-                    captionHeader={item.caption}
+                    captionText={item.captionText}
+                    captionHeader={item.captionHeader}
                 />
             </CarouselItem>
         );
