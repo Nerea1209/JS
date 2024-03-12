@@ -71,6 +71,10 @@ ul>li {
   color: red;
 }
 
+input::placeholder {
+  color: rgb(182, 181, 181) !important;
+}
+
 @media (width > 770px) {
   form {
     /* padding: 1rem 2rem; */
