@@ -55,148 +55,57 @@ class App extends React.Component {
       let aux = JSON.parse(JSON.stringify(this.state.supermercados));
       aux.push({ "nombre": "Supermercado " + (aux.length + 1), "coordenada": [i, j], "personas": poblacion[i][j] })
       this.setState({ supermercados: aux })
-      this.encontrarSupermercados()
+      this.encontrarSupermercados(aux)
     } else {
       boton.target.classList.remove("btn-primary");
       boton.target.classList.add("btn-success");
       let aux = JSON.parse(JSON.stringify(this.state.supermercados));
-      console.log(aux.filter((v) => v.coordenada[0] !== i && v.coordenada[1] !== j))
-      this.setState({ supermercados: aux.filter((v) => v.coordenada[0] !== i && v.coordenada[1] !== j) })
+      // console.log(i + "," + j)
+      this.setState({ supermercados: aux.filter((v) => v.coordenada[0] !== i || v.coordenada[1] !== j) })
+      // console.log(this.state.supermercados)
     }
     // console.log(this.state.supermercados.map(v => <p><strong>{v.nombre} ({v.coordenada[0] + "," + v.coordenada[1]}): </strong> x personas.</p>))
   }
-  encontrarSupermercados() {
+  encontrarSupermercados(mercados) {
     let aux = JSON.parse(JSON.stringify(this.state.poblacion));
-    let mercados = JSON.parse(JSON.stringify(this.state.supermercados));
+    // let mercados = JSON.parse(JSON.stringify(this.state.supermercados));
     // console.log(mercados)
     // Reseteo las personas de todos los supermercados
     mercados.map(v => {
-      v.personas = aux.map((k, i) => k.map((l, j) => {
-        return i === v.coordenada[0] && j === v.coordenada[1] ? aux[i][j] : undefined;
-      }).filter(v => v !== undefined)).filter(v => v.length !== 0)[0][0]
+      v.personas = 0
       return v
     })
 
     aux.forEach((v, i) => v.forEach((m, j) => {
       // Calcular distancia (D)
-      // i++;
-      // j++
       let encontrado = false
-      let d = 1;
-      // let personas = aux[i][j] * 1000;
+      let d = 0;
+
+
       while (!encontrado && (i + d < aux.length || j + d < aux.length || j - d >= 0 || i - d >= 0)) {
-        // console.log(d)
         let cercanos = [];
         for (let l = i - d; l <= i + d; l++) {
           for (let k = j - d; k <= j + d; k++) {
-            // console.log(personas)
-            // console.log("l" + l + "-k" + k)
             if (l >= 0 && k >= 0 && l < aux.length && k < aux[i].length) {
-              // console.log(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k))
-              // console.log(mercados)
               if (mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k)) {
-                //   // console.log("hola")
                 cercanos.push(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k));
                 encontrado = true;
               }
-              // personas += aux[l][k] * 1000;
             }
           }
         }
 
-
-
-        mercados.map(o => {
-          if (cercanos.length > 0) {
-            console.log(cercanos)
-            cercanos.forEach(v => {
-              // console.log(v.personas)
-              v.personas += aux[i][j] / cercanos.length
-              // console.log(v.personas)
-              // Actualizo en la matriz
-              console.log(mercados.find(k => k.nombre === v.nombre))
-              if (mercados.find(k => k.nombre === v.nombre)) {
-                // mercados[mercados.index].poblacion += v.pobacion
-                // console.log(v.personas)
-                // mercados.filter(k => k.nombre != mercados.find(v => v.coordenada[0] == i && v.coordenada[1] == j).nombre).push(v);
-                // mercados.find(k => k.nombre === v.nombre).personas = v.personas
-                mercados.find(k => k.nombre === v.nombre).personas = v.personas
-              }
-              this.setState({ supermercados: mercados })
-
-              // mercados.push(v);
-              // console.log(mercados)
-              // this.setState({ supermercados: mercados })
-            })
-          } else {
-            o.personas += aux[i][j]
-          }
-        })
+        // Si hay cercanos, repartimos la población
+        if (cercanos.length > 0) {
+          cercanos.forEach(v => {
+            v.personas += Math.ceil(aux[v.coordenada[0]][v.coordenada[1]] * 100 / cercanos.length)
+            console.log(v.nombre + ": " + v.personas)
+            mercados.find(l => l.coordenada[0] === v.coordenada[0] && l.coordenada[1] === v.coordenada[1]).personas = v.personas;
+          })
+          this.setState({ supermercados: mercados })
+        }
         d++;
       }
-      // console.log(personas)
-      // if (j - d >= 0 && k == j - d && l != i - d && l != i + d) {
-      //   if (l < aux.length && l >= 0)
-      //     personas += aux[l][k] * 1000;
-      // }
-      // console.log(personas)
-      // if (i + d < aux.length && l == i + d) {
-      //   if (k < aux.length && k >= 0)
-      //     personas += aux[l][k] * 1000;
-      // }
-      // console.log(personas)
-      // if (j + d < aux.length && k == j + d && l != i + d && l != i - d) {
-      //   if (l < aux.length && l >= 0)
-      //     personas += aux[l][k] * 1000;
-      // }
-      // console.log(personas)
-
-      // if (j - d >= 0) {
-      //   // Izquierda
-      //   console.log("izq" + aux[i][j - d] * 1000)
-
-      // }
-      // if (j + d < aux.length) {
-      //   console.log("der" + aux[i][j + d] * 1000)
-      //   // Derecha
-      //   personas += aux[i][j + d] * 1000;
-      // }
-      // if (i - d >= 0) {
-      //   console.log("arr" + aux[i - d][j] * 1000)
-      //   // Arriba
-      //   personas += aux[i - d][j] * 1000;
-      // }
-      // if (i + d < aux.length) {
-      //   console.log("aba" + aux[i + d][j] * 1000)
-      //   // Abajo
-      //   personas += aux[i + d][j] * 1000;
-      // }
-      // if (i - d >= 0 && j - d >= 0) {
-      //   console.log("arr-izq" + aux[i - d][j - d] * 1000)
-      //   // Diagonal arriba-izquierda
-      //   personas += aux[i - d][j - d] * 1000;
-      // }
-      // if (i - d >= 0 && j + d < aux.length) {
-      //   console.log("arr-der" + aux[i - d][j + d] * 1000)
-      //   // Diagonal arriba-derecha
-      //   personas += aux[i - d][j + d] * 1000;
-      // }
-      // if (i + d < aux.length && j - d >= 0) {
-      //   console.log("aba-izq" + aux[i + d][j - d] * 1000)
-      //   // Diagonal abajo-izquierda
-      //   personas += aux[i + d][j - d] * 1000;
-      // }
-
-      // if (i + d < aux.length && j + d < aux.length) {
-      //   console.log("aba-der" + aux[i + d][j + d] * 1000)
-      //   // Diagonal abajo-derecha
-      //   personas += aux[i + d][j + d] * 1000;
-      // }
-
-      // this.state.poblacion.find((v, i) => i)
-      // Filtro supermercados a esa distancia (D) -> N
-      // Divido poblacion entre supermercados -> P
-      // A cada supermercado del filtro le sumo la P
     }))
   }
   render() {
