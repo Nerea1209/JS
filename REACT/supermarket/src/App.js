@@ -87,7 +87,9 @@ class App extends React.Component {
         for (let l = i - d; l <= i + d; l++) {
           for (let k = j - d; k <= j + d; k++) {
             if (l >= 0 && k >= 0 && l < aux.length && k < aux[i].length) {
+              // console.log(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k) && !cercanos.find(c => c.coordenada[0] === l && c.coordenada[1] === k))
               if (mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k)) {
+                // console.log("soy un supermercado")
                 cercanos.push(mercados.find(c => c.coordenada[0] === l && c.coordenada[1] === k));
                 encontrado = true;
               }
@@ -98,8 +100,10 @@ class App extends React.Component {
         // Si hay cercanos, repartimos la población
         if (cercanos.length > 0) {
           cercanos.forEach(v => {
-            v.personas += Math.ceil(aux[v.coordenada[0]][v.coordenada[1]] * 100 / cercanos.length)
-            console.log(v.nombre + ": " + v.personas)
+            // console.log(v)
+
+            v.personas += Math.ceil(aux[v.coordenada[0]][v.coordenada[1]] * 1000 / cercanos.length)
+            // console.log(v.nombre + ": " + v.personas)
             mercados.find(l => l.coordenada[0] === v.coordenada[0] && l.coordenada[1] === v.coordenada[1]).personas = v.personas;
           })
           this.setState({ supermercados: mercados })
